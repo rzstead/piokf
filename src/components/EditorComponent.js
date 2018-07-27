@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import ViewerComponent from './ViewerComponent';
+import InspectorComponent from "./InspectorComponent";
 import { PageService } from '../services/PageService';
 
 /**
@@ -13,6 +14,7 @@ export default class EditorComponent extends Component {
         this.state = {
             page: []
         }
+        this.foo = this.foo.bind(this);
     }
 
     componentWillMount() {
@@ -25,6 +27,11 @@ export default class EditorComponent extends Component {
             });
     }
 
+    foo(element) {
+        console.log('EditorComponent received => ' + JSON.stringify(element));
+        this.refs.inspector.onReceivedElement(element);
+    }
+
     render() {
         return(
             <div style={{display: 'flex', flex: 12, height: '100%' }} className='container'>
@@ -32,10 +39,10 @@ export default class EditorComponent extends Component {
                 <p>TODO Add Browser Sidebar Here</p>
                 </div>
                 <div style={{flex: 6, backgroundColor: 'green'}} className='viewer'>
-                <ViewerComponent ref='viewer' />
+                <ViewerComponent ref='viewer' onElementClicked={this.foo} />
                 </div>
                 <div style={{flex: 3, backgroundColor: 'blue'}} className='panel'>
-                <p>TODO Add Property Panel Here</p>
+                <InspectorComponent ref='inspector'/>
                 </div>
             </div>
         )

@@ -16,7 +16,8 @@ async function getPages() {
                     styles: [
                         {
                             color: "red",
-                            fontSize: 30
+                            fontSize: 30,
+                            backgroundColor: 'magenta'
                         }
                     ]
                 }

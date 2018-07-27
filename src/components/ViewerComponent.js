@@ -16,10 +16,7 @@ export default class ViewerComponent extends Component {
         let elements = [];
         let styles = page.elements[0].styles[0];
         let href = page.elements[0].attributes[0].href;
-        elements.push(<a style={styles} key={0} href={href}>{page.elements[0].innerHTML}</a>);
-        console.log('ViewerComponent received page => ' + JSON.stringify(page));
-        console.log('Attributes are =>' + JSON.stringify(page.elements[0].attributes[0].href));
-        console.log('Styles are =>' + JSON.stringify(styles));
+        elements.push(<div key='foo' style={{padding: 4, border: '1px solid black'}} onClick={() => {this.props.onElementClicked(page.elements[0])}}><a style={styles} key={0} href={href}>{page.elements[0].innerHTML}</a></div>);
         this.setState({elements: elements})
     }
 
