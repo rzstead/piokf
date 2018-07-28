@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import ViewerComponent from './ViewerComponent';
 import InspectorComponent from "./InspectorComponent";
 import { PageService } from '../services/PageService';
+import BrowseComponent from './BrowseComponent';
+import CreateRibbonComponent from './CreateRibbonComponent';
+import ElementInsertComponent from './ElementInsertComponent';
 
 /**
  * Main editor component that will contain the browser sidebar,
@@ -15,15 +18,15 @@ export default class EditorComponent extends Component {
             page: []
         }
         this.foo = this.foo.bind(this);
+        this.onPageChoice = this.onPageChoice.bind(this);
+        this.onInsertElementClicked = this.onInsertElementClicked.bind(this);
     }
 
     componentWillMount() {
-        console.log('should be fetching pages!');
-        PageService.getPages()
+        PageService.getPageMetas()
             .then(json => {
-                let page = json[0];
-                console.log('received: ' + JSON.stringify(page));
-                this.refs.viewer.onReceivedPage(page);
+                console.log("Page meta ->"  + JSON.stringify(json));
+                this.refs.browser.onReceivedMetas(json);
             });
     }
 
@@ -32,18 +35,37 @@ export default class EditorComponent extends Component {
         this.refs.inspector.onReceivedElement(element);
     }
 
+    onPageChoice(id){
+        PageService.getPage(id)
+            .then(json =>{
+                this.refs.viewer.onReceivedPage(json);
+            });
+    }
+
+    onInsertElementClicked(evt){
+        let buttonBounds = evt.target.getBoundingClientRect();
+        this.refs.ribbon.showSelf(buttonBounds);
+        //console.log("middle of button clicked -> " + (buttonBounds.bottom - 12));
+    }
+
     render() {
         return(
-            <div style={{display: 'flex', flex: 12, height: '100%' }} className='container'>
-                <div style={{flex: 3, backgroundColor: 'red'}} className='panel'>
-                <p>TODO Add Browser Sidebar Here</p>
+            <div style={{overflowY: 'hidden'}}>
+                <div style={{display: 'flex', flex: 12, height: '100vh'}} className='container'>
+                    <div style={{flex: 3, backgroundColor: 'white', height: '100vh', overflowY: 'auto'}} className='panel'>
+                    <BrowseComponent ref='browser' onPageChoice={this.onPageChoice}/>
+                    </div>
+                    <div className='element-insert'>
+                    <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked}/>
+                    </div>
+                    <div style={{flex: 6, backgroundColor: 'white'}} className='viewer'>
+                    <ViewerComponent ref='viewer' onElementClicked={this.foo} />
+                    </div>
+                    <div style={{flex: 3, backgroundColor: 'blue'}} className='panel'>
+                    <InspectorComponent ref='inspector'/>
+                    </div>
                 </div>
-                <div style={{flex: 6, backgroundColor: 'green'}} className='viewer'>
-                <ViewerComponent ref='viewer' onElementClicked={this.foo} />
-                </div>
-                <div style={{flex: 3, backgroundColor: 'blue'}} className='panel'>
-                <InspectorComponent ref='inspector'/>
-                </div>
+                <CreateRibbonComponent ref='ribbon' />
             </div>
         )
     }
