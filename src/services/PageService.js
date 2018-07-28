@@ -40,7 +40,7 @@ let mockPage3 = {
         type: "img",
         innerHTML: "",
         attributes: [{
-            src: "https://noot.space/noot.gif",
+            src: "https://media1.tenor.com/images/4be2fecb985dd9a80e22d3c32225b12d/tenor.gif",
             alt: "Noot gif"
         }],
         styles: [{

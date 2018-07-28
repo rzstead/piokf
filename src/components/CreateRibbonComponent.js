@@ -28,11 +28,11 @@ export default class CreateRibbonComponent extends Component{
         let left = this.state.left;
         return(
             <div className={this.state.className} style={{top: top, left: left}} onMouseLeave={this.hideSelf}>
-                <i className="material-icons">link</i>
-                <i className="material-icons">photo</i>
-                <i className="material-icons">format_bold</i>
-                <i className="material-icons">text_fields</i>
-                <i className="material-icons">code</i>
+                <i className="material-icons" onClick={() => this.props.onAddElementClicked('a')}>link</i>
+                <i className="material-icons" onClick={() => this.props.onAddElementClicked('img')}>photo</i>
+                <i className="material-icons" onClick={() => this.props.onAddElementClicked('h1')}>format_bold</i>
+                <i className="material-icons" onClick={() => this.props.onAddElementClicked('p')}>text_fields</i>
+                <i className="material-icons" onClick={() => this.props.onAddElementClicked('hr')}>code</i>
             </div>
         );
     }

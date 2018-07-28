@@ -9,7 +9,7 @@ export default class ElementInsertComponent extends Component{
     render(){
         return(
             <div>
-                <i style={{margin:0, marginTop: 150}} className="material-icons" onMouseEnter={(evt) => {this.props.onInsertElementClicked(evt)}}>add_circle_outline</i>
+                <i style={{margin:0, marginTop: 150, color: '#666'}} className="material-icons" onMouseEnter={(evt) => {this.props.onInsertElementClicked(evt)}}>add_circle_outline</i>
             </div>
         );
     }
