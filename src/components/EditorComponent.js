@@ -4,6 +4,8 @@ import ViewerComponent from './ViewerComponent';
 import InspectorComponent from "./InspectorComponent";
 import { PageService } from '../services/PageService';
 import BrowseComponent from './BrowseComponent';
+import CreateRibbonComponent from './CreateRibbonComponent';
+import ElementInsertComponent from './ElementInsertComponent';
 
 /**
  * Main editor component that will contain the browser sidebar,
@@ -17,6 +19,7 @@ export default class EditorComponent extends Component {
         }
         this.foo = this.foo.bind(this);
         this.onPageChoice = this.onPageChoice.bind(this);
+        this.onInsertElementClicked = this.onInsertElementClicked.bind(this);
     }
 
     componentWillMount() {
@@ -39,20 +42,30 @@ export default class EditorComponent extends Component {
             });
     }
 
+    onInsertElementClicked(evt){
+        let buttonBounds = evt.target.getBoundingClientRect();
+        this.refs.ribbon.showSelf(buttonBounds);
+        //console.log("middle of button clicked -> " + (buttonBounds.bottom - 12));
+    }
+
     render() {
         return(
-            <div style={{display: 'flex', flex: 12, height: '100%' }} className='container'>
-                <div style={{flex: 3, backgroundColor: 'red'}} className='panel'>
-                <BrowseComponent ref='browser' onPageChoice={this.onPageChoice}/>
+            <div style={{overflowY: 'hidden'}}>
+                <div style={{display: 'flex', flex: 12, height: '100vh'}} className='container'>
+                    <div style={{flex: 3, backgroundColor: 'white', height: '100vh', overflowY: 'auto'}} className='panel'>
+                    <BrowseComponent ref='browser' onPageChoice={this.onPageChoice}/>
+                    </div>
+                    <div className='element-insert'>
+                    <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked}/>
+                    </div>
+                    <div style={{flex: 6, backgroundColor: 'white'}} className='viewer'>
+                    <ViewerComponent ref='viewer' onElementClicked={this.foo} />
+                    </div>
+                    <div style={{flex: 3, backgroundColor: 'blue'}} className='panel'>
+                    <InspectorComponent ref='inspector'/>
+                    </div>
                 </div>
-                <div style={{width: 20, backgroundColor: 'grey'}} className='panel'>
-                </div>
-                <div style={{flex: 6, backgroundColor: 'green'}} className='viewer'>
-                <ViewerComponent ref='viewer' onElementClicked={this.foo} />
-                </div>
-                <div style={{flex: 3, backgroundColor: 'blue'}} className='panel'>
-                <InspectorComponent ref='inspector'/>
-                </div>
+                <CreateRibbonComponent ref='ribbon' />
             </div>
         )
     }

@@ -16,10 +16,11 @@ export default class BrowseComponent extends Component{
 
     render(){
         return(
-            <div>
+            <div className="browser-component">
+                <h3 className="component-title">My Pages</h3>
                 {this.state.pageMetas.map((element, i) => 
                     {
-                    return(<h1 key={i} onClick={() => {this.props.onPageChoice(element.id)}}>{element.title}</h1>);
+                    return(<div key={i} onClick={() => {this.props.onPageChoice(element.id)}}><h4 className="page-tab">{element.title}</h4></div>);
                     })
                 }
             </div>
