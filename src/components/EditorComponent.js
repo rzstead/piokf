@@ -20,6 +20,7 @@ export default class EditorComponent extends Component {
         this.foo = this.foo.bind(this);
         this.onPageChoice = this.onPageChoice.bind(this);
         this.onInsertElementClicked = this.onInsertElementClicked.bind(this);
+        this.onAddElementClicked = this.onAddElementClicked.bind(this);
     }
 
     componentWillMount() {
@@ -45,7 +46,10 @@ export default class EditorComponent extends Component {
     onInsertElementClicked(evt){
         let buttonBounds = evt.target.getBoundingClientRect();
         this.refs.ribbon.showSelf(buttonBounds);
-        //console.log("middle of button clicked -> " + (buttonBounds.bottom - 12));
+    }
+
+    onAddElementClicked(type){
+        this.refs.viewer.addElement(type);
     }
 
     render() {
@@ -58,14 +62,14 @@ export default class EditorComponent extends Component {
                     <div className='element-insert'>
                     <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked}/>
                     </div>
-                    <div style={{flex: 6, backgroundColor: 'white'}} className='viewer'>
+                    <div style={{flex: 6, backgroundColor: 'white', overflowY:'auto'}} className='viewer'>
                     <ViewerComponent ref='viewer' onElementClicked={this.foo} />
                     </div>
                     <div style={{flex: 3, backgroundColor: 'blue'}} className='panel'>
                     <InspectorComponent ref='inspector'/>
                     </div>
                 </div>
-                <CreateRibbonComponent ref='ribbon' />
+                <CreateRibbonComponent ref='ribbon' onAddElementClicked={this.onAddElementClicked}/>
             </div>
         )
     }
