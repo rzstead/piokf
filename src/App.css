@@ -127,3 +127,8 @@
   background-color: rgb(85, 199, 81);
   color: white;
 }
+
+.element-add{
+  color: #666;
+  position: relative;
+}

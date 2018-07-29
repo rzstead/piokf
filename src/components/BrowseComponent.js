@@ -7,7 +7,8 @@ export default class BrowseComponent extends Component{
         this.state = {
             pageMetas: []
         }
-        this.onReceivedMetas = this.onReceivedMetas.bind(this);
+        //not needed?
+        //this.onReceivedMetas = this.onReceivedMetas.bind(this);
     }
 
     onReceivedMetas(metas){

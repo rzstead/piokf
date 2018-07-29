@@ -6,8 +6,8 @@ export default class ViewerComponent extends Component {
         this.state = {
             elements: []
         }
-
-        this.onReceivedPage = this.onReceivedPage.bind(this);
+        //not needed?
+        //this.onReceivedPage = this.onReceivedPage.bind(this);
     }
 
     onReceivedPage(page) {

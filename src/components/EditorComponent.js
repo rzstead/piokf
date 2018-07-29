@@ -56,16 +56,16 @@ export default class EditorComponent extends Component {
         return(
             <div style={{overflowY: 'hidden'}}>
                 <div style={{display: 'flex', flex: 12, height: '100vh'}} className='container'>
-                    <div style={{flex: 3, backgroundColor: 'white', height: '100vh', overflowY: 'auto'}} className='panel'>
+                    <div style={{flex: 3, height: '100vh', overflowY: 'auto'}} className='panel'>
                     <BrowseComponent ref='browser' onPageChoice={this.onPageChoice}/>
                     </div>
                     <div className='element-insert'>
                     <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked}/>
                     </div>
-                    <div style={{flex: 6, backgroundColor: 'white', overflowY:'auto'}} className='viewer'>
+                    <div style={{flex: 6, overflowY:'auto'}} className='panel'>
                     <ViewerComponent ref='viewer' onElementClicked={this.foo} />
                     </div>
-                    <div style={{flex: 3, backgroundColor: 'blue'}} className='panel'>
+                    <div style={{flex: 3}} className='panel'>
                     <InspectorComponent ref='inspector'/>
                     </div>
                 </div>

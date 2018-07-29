@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './dark-theme.css';
 import './components/EditorComponent';
 import EditorComponent from './components/EditorComponent';
 

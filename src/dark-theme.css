@@ -1,0 +1,28 @@
+.panel{
+    background-color: #444;
+}
+
+body{
+    color: white;
+}
+
+.component-title{
+    background-color: rgb(99, 65, 119);
+    border-color: #222;
+}
+
+.page-tab{
+    border-color: #222;
+}
+
+.page-tab:hover{
+    background-color: #333;
+}
+
+.ribbon{
+    background-color: rgb(99, 65, 119);
+}
+
+.element-insert{
+    background-color: #222;
+}
