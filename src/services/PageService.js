@@ -89,7 +89,7 @@ async function getPage(id) {
     });
 }
 
-async function getPageMetas() {
+function getPageMetas() {
     return new Promise((resolve, reject) => {
         let itWorked = true;
         if (itWorked) {
