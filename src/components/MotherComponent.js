@@ -5,14 +5,26 @@ import BrowseComponent from './BrowseComponent';
 import ElementInsertComponent from './ElementInsertComponent';
 import ViewerComponent from './ViewerComponent';
 import InspectorComponent from './InspectorComponent';
+import CreateRibbonComponent from './CreateRibbonComponent';
 
 class MotherComponent extends Component {
     constructor(props) {
         super(props);
+        this.onInsertElementClicked = this.onInsertElementClicked.bind(this);
     }
 
     componentDidMount() {
         this.props.fetchPageMetas();
+    }
+
+    onInsertElementClicked(evt) {
+        console.log('MotherComponent => onInsertElementClicked');
+        let buttonBounds = evt.target.getBoundingClientRect();
+        this.refs.ribbon.showSelf(buttonBounds);
+    }
+
+    onAddElementClicked(type) {
+        console.log('MotherComponent => onAddElementClicked');
     }
 
     render() {
@@ -24,7 +36,7 @@ class MotherComponent extends Component {
                         <BrowseComponent pageMetas={this.props.pageMetas} />
                     </div>
                     <div className='element-insert'>
-                        <ElementInsertComponent />
+                        <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked} />
                     </div>
                     <div style={{flex: 6, overflowY: 'auto'}} className='panel'>
                         <ViewerComponent page={this.props.page} />
@@ -33,6 +45,7 @@ class MotherComponent extends Component {
                         <InspectorComponent />
                     </div>
                 </div>
+                <CreateRibbonComponent ref='ribbon' onAddElementClicked={this.onAddElementClicked} />
             </div>
         )
     }
