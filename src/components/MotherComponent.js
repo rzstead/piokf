@@ -21,13 +21,13 @@ class MotherComponent extends Component {
             <div style={{overflowY: 'hidden'}}>
                 <div style={{display: 'flex', flex: 12, height: '100vh'}} className='container'>
                     <div style={{flex: 3, height: '100vh', overflowY: 'auto'}} className='panel'>
-                        <BrowseComponent pageMetas={this.props.pageMetas}/>
+                        <BrowseComponent pageMetas={this.props.pageMetas} />
                     </div>
                     <div className='element-insert'>
                         <ElementInsertComponent />
                     </div>
                     <div style={{flex: 6, overflowY: 'auto'}} className='panel'>
-                        <ViewerComponent />
+                        <ViewerComponent page={this.props.page} />
                     </div>
                     <div style={{flex: 3}} className='panel'>
                         <InspectorComponent />
@@ -40,14 +40,15 @@ class MotherComponent extends Component {
 
 const mapStateToProps = state => ({
     isLoading: state.metas.isLoading,
-    pageMetas: state.metas.pageMetas
+    pageMetas: state.metas.pageMetas,
+    page: state.pages.page
 });
 
 const mapDispatchToProps = dispatch => {
     return {
         fetchPageMetas: () => {
             dispatch(fetchPageMetas());
-        }
+        },
     }
 }
 

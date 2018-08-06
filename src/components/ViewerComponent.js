@@ -6,11 +6,17 @@ export default class ViewerComponent extends Component {
         this.state = {
             elements: []
         }
-        //not needed?
-        //this.onReceivedPage = this.onReceivedPage.bind(this);
+    }
+
+    componentWillReceiveProps(newProps) {
+        console.log('ViewerComponent => componentWillReceiveProps => ' + JSON.stringify(newProps));
+        if (newProps.page != null) {
+            this.onReceivedPage(newProps.page);
+        }
     }
 
     onReceivedPage(page) {
+        console.log('ViewerComponent => onReceivedPage => ' + JSON.stringify(page));
         let elements = [];
         elements = page.elements.map((element, i) => {
             let type = element.type;
@@ -55,7 +61,8 @@ export default class ViewerComponent extends Component {
         }
 
         //this onclick somehow gets called on browse bar click?
-        return <div className="element-wrapper" key={key} onClick={this.props.onElementClicked(element)}>{element}</div>;
+        // return <div className="element-wrapper" key={key} onClick={this.props.onElementClicked(element)}>{element}</div>;
+        return <div className="element-wrapper" key={key}> {element}</div>;
     }
 
     render() {
