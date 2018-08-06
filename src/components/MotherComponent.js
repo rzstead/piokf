@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPageMetas } from '../actions/metaActions';
 import BrowseComponent from './BrowseComponent';
+import ElementInsertComponent from './ElementInsertComponent';
+import ViewerComponent from './ViewerComponent';
+import InspectorComponent from './InspectorComponent';
 
 class MotherComponent extends Component {
     constructor(props) {
@@ -15,9 +18,21 @@ class MotherComponent extends Component {
     render() {
         console.log('metas => ' + JSON.stringify(this.props.pageMetas));
         return(
-            <div>
-                <h1 style={{color: 'red'}}>{this.props.isLoading ? 'Loading' : 'Loaded'}</h1>
-                <BrowseComponent pageMetas={this.props.pageMetas}/>
+            <div style={{overflowY: 'hidden'}}>
+                <div style={{display: 'flex', flex: 12, height: '100vh'}} className='container'>
+                    <div style={{flex: 3, height: '100vh', overflowY: 'auto'}} className='panel'>
+                        <BrowseComponent pageMetas={this.props.pageMetas}/>
+                    </div>
+                    <div className='element-insert'>
+                        <ElementInsertComponent />
+                    </div>
+                    <div style={{flex: 6, overflowY: 'auto'}} className='panel'>
+                        <ViewerComponent />
+                    </div>
+                    <div style={{flex: 3}} className='panel'>
+                        <InspectorComponent />
+                    </div>
+                </div>
             </div>
         )
     }
