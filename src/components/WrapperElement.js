@@ -29,7 +29,7 @@ class WrapperElement extends Component {
             case 'p':
                 return <P data={this.props.data} />
             default:
-                throw console.error('Unsupported type');
+                throw console.error('Unsupported type: ' + JSON.stringify(type));
         }
     }
 

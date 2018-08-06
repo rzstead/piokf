@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectElement, deSelectElement } from '../actions/elementActions';
+import { selectElement, deSelectElement, createElement, createElementFromType } from '../actions/elementActions';
 import WrapperElement from '../components/WrapperElement';
 
 class ViewerComponent extends Component {
@@ -17,10 +17,13 @@ class ViewerComponent extends Component {
         if (newProps.page != null) {
             this.onReceivedPage(newProps.page);
         }
+        if (newProps.elementTypeToAdd != null) {
+            this.addElement(newProps.elementTypeToAdd);
+        }
     }
 
     onElementUpdated(element) {
-        console.log('ViewerComponent => onElemenetUpdated');
+        console.log('ViewerComponent => onElementUpdated');
     }
 
     onReceivedPage(page) {
@@ -45,6 +48,7 @@ class ViewerComponent extends Component {
         let createdElement = this.createElement(type);
         elements.push(createdElement);
         this.setState({elements: elements});
+        this.props.createElement(createdElement);
     }
 
     onElementClicked(element) {
@@ -94,7 +98,9 @@ class ViewerComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    selectedElement: state.elements.selectedElement
+    selectedElement: state.elements.selectedElement,
+    elementTypeToAdd: state.elements.elementTypeToAdd,
+    elementToAdd: state.elements.elementToAdd
 });
 
 const mapDispatchToProps = dispatch => {
@@ -104,6 +110,12 @@ const mapDispatchToProps = dispatch => {
         },
         deSelectElement: (element) => {
             dispatch(deSelectElement(element));
+        },
+        createElementFromType: (type) => {
+            dispatch(createElementFromType(type));
+        },
+        createElement: (element) => {
+            dispatch(createElement(element));
         }
     }
 }

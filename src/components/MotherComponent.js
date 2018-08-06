@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPageMetas } from '../actions/metaActions';
+import { createElementFromType } from '../actions/elementActions';
 import BrowseComponent from './BrowseComponent';
 import ElementInsertComponent from './ElementInsertComponent';
 import ViewerComponent from './ViewerComponent';
@@ -11,6 +12,7 @@ class MotherComponent extends Component {
     constructor(props) {
         super(props);
         this.onInsertElementClicked = this.onInsertElementClicked.bind(this);
+        this.onAddElementClicked = this.onAddElementClicked.bind(this);
     }
 
     componentDidMount() {
@@ -24,7 +26,8 @@ class MotherComponent extends Component {
     }
 
     onAddElementClicked(type) {
-        console.log('MotherComponent => onAddElementClicked');
+        console.log('MotherComponent => onAddElementClicked => ' + JSON.stringify(type));
+        this.props.createElementFromType(type);
     }
 
     render() {
@@ -39,7 +42,7 @@ class MotherComponent extends Component {
                         <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked} />
                     </div>
                     <div style={{flex: 6, overflowY: 'auto'}} className='panel'>
-                        <ViewerComponent page={this.props.page} />
+                        <ViewerComponent ref='viewer' page={this.props.page} />
                     </div>
                     <div style={{flex: 3, border: '1px solid #222'}} className='panel'>
                         <InspectorComponent />
@@ -61,6 +64,9 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchPageMetas: () => {
             dispatch(fetchPageMetas());
+        },
+        createElementFromType: (type) => {
+            dispatch(createElementFromType(type));
         },
     }
 }
