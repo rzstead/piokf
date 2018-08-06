@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { selectElement, deSelectElement } from '../actions/elementActions';
 
-export default class ViewerComponent extends Component {
+class ViewerComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -38,6 +40,11 @@ export default class ViewerComponent extends Component {
         this.setState({elements: elements});
     }
 
+    onElementClicked(element) {
+        console.log('ViewerComponent => onElementClicked => ' + JSON.stringify(element));
+        this.props.selectElement(element);
+    }
+
     createElement(type, innerHTML, key, styles, attributes){
         var element;
         switch(type){
@@ -62,7 +69,7 @@ export default class ViewerComponent extends Component {
 
         //this onclick somehow gets called on browse bar click?
         // return <div className="element-wrapper" key={key} onClick={this.props.onElementClicked(element)}>{element}</div>;
-        return <div className="element-wrapper" key={key}> {element}</div>;
+        return <div className="element-wrapper" key={key} onClick={() => {this.onElementClicked(element)}}> {element}</div>;
     }
 
     render() {
@@ -73,3 +80,20 @@ export default class ViewerComponent extends Component {
         )
     }
 }
+
+const mapStateToProps = state => ({
+    selectedElement: state.elements.selectedElement
+});
+
+const mapDispatchToProps = dispatch => {
+    return {
+        selectElement: (element) => {
+            dispatch(selectElement(element));
+        },
+        deSelectElement: (element) => {
+            dispatch(deSelectElement(element));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewerComponent);
