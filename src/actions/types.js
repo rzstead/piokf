@@ -11,3 +11,4 @@ export const PAGE_FAILURE = 'PAGE_FAILURE';
 // element actions
 export const ELEMENT_SELECTED = 'ELEMENT_SELECTED';
 export const ELEMENT_DESELECTED = 'ELEMENT_DESELECTED';
+export const ELEMENT_UPDATED = 'ELEMENT_UPDATED';

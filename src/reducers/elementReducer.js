@@ -1,4 +1,4 @@
-import { ELEMENT_SELECTED, ELEMENT_DESELECTED } from '../actions/types';
+import { ELEMENT_SELECTED, ELEMENT_DESELECTED, ELEMENT_UPDATED } from '../actions/types';
 
 const initialState = {
     selectedElement: null
@@ -17,6 +17,12 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 selectedElement: null
+            }
+        case ELEMENT_UPDATED:
+            console.log('elementReducer => ELEMENT_UPDATED');
+            return {
+                ...state,
+                selectedElement: action.payload
             }
         default:
             return state;

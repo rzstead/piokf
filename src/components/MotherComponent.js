@@ -20,7 +20,7 @@ class MotherComponent extends Component {
         return(
             <div style={{overflowY: 'hidden'}}>
                 <div style={{display: 'flex', flex: 12, height: '100vh'}} className='container'>
-                    <div style={{flex: 3, height: '100vh', overflowY: 'auto'}} className='panel'>
+                    <div style={{flex: 3, height: '100vh', overflowY: 'auto', border: '1px solid #222'}} className='panel'>
                         <BrowseComponent pageMetas={this.props.pageMetas} />
                     </div>
                     <div className='element-insert'>
@@ -29,7 +29,7 @@ class MotherComponent extends Component {
                     <div style={{flex: 6, overflowY: 'auto'}} className='panel'>
                         <ViewerComponent page={this.props.page} />
                     </div>
-                    <div style={{flex: 3}} className='panel'>
+                    <div style={{flex: 3, border: '1px solid #222'}} className='panel'>
                         <InspectorComponent />
                     </div>
                 </div>
