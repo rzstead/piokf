@@ -18,14 +18,14 @@ class BrowseComponent extends Component {
         this.onMetaClicked = this.onMetaClicked.bind(this);
     }
 
-    onMetaClicked(element) {
-        console.log('BrowseComponent => onMetaClicked => ' + JSON.stringify(element));
-        this.props.fetchPage(element.id);
+    onMetaClicked(meta) {
+        console.log('BrowseComponent => onMetaClicked => ' + JSON.stringify(meta));
+        this.props.fetchPage(meta.id);
     }
 
     render() {
         let pageMetas = this.props.pageMetas || [];
-        console.log('BrowseComponent rendering => ' + JSON.stringify(pageMetas));
+
         return(
             <div className="browser-component">
                 <h3 className="component-title">My Pages</h3>
@@ -35,13 +35,9 @@ class BrowseComponent extends Component {
                     })
                 }
             </div>
-        );
+        )
     }
 }
-
-const mapStateToProps = state => ({
-    page: state.pages.page
-});
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -51,4 +47,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BrowseComponent);
+export default connect(null, mapDispatchToProps)(BrowseComponent);
