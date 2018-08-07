@@ -1,9 +1,11 @@
-import { PAGE_REQUEST, PAGE_SUCCESS, PAGE_FAILURE } from '../actions/types';
+import { PAGE_REQUEST, PAGE_SUCCESS, PAGE_FAILURE, ELEMENT_ADDED_TO_PAGE } from '../actions/types';
 
 const initialState = {
     isLoading: true,
     error: null,
-    page: null
+    page: {
+        elements: []
+    }
 }
 
 
@@ -28,6 +30,14 @@ export default function(state = initialState, action) {
                 ...state,
                 isLoading: false,
                 error: action.error
+            }
+        case ELEMENT_ADDED_TO_PAGE:
+            console.log('pageReducer => ELEMENT_ADDED_TO_PAGE ==> TODO IMPLEMENT ME!!');
+            let page = state.page;
+            page.elements.push(action.payload);
+            return {
+                ...state,
+                page: page
             }
         default:
             return state;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { selectElement, deSelectElement, createElement, createElementFromType } from '../actions/elementActions';
+import { selectElement, deSelectElement, createElement, createElementFromType, addElementToPage } from '../actions/elementActions';
 import WrapperElement from '../components/WrapperElement';
 
 class ViewerComponent extends Component {
@@ -44,11 +44,13 @@ class ViewerComponent extends Component {
     }
 
     addElement(type){
-        let elements = this.state.elements;
+        console.log('ViewerComponent => addElement => ' + type);
         let createdElement = this.createElement(type);
-        elements.push(createdElement);
-        this.setState({elements: elements});
-        this.props.createElement(createdElement);
+        this.props.addElementToPage(createdElement);
+        // let elements = this.state.elements;
+        // elements.push(createdElement);
+        // this.setState({elements: elements});
+        // this.props.createElement(createdElement);
     }
 
     onElementClicked(element) {
@@ -116,6 +118,9 @@ const mapDispatchToProps = dispatch => {
         },
         createElement: (element) => {
             dispatch(createElement(element));
+        },
+        addElementToPage: (element) => {
+            dispatch(addElementToPage(element));
         }
     }
 }
