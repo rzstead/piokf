@@ -4,8 +4,11 @@ import {
     PAGE_META_FAILURE,
     PAGE_REQUEST,
     PAGE_SUCCESS,
-    PAGE_FAILURE
+    PAGE_FAILURE,
+    ELEMENT_SELECTED
 } from '../actions/types';
+
+import { ElementHelper } from '../util/ElementHelper';
 
 const initialState = {
     isLoading: true,
@@ -14,7 +17,16 @@ const initialState = {
     pageMetas: [],
     pageData: {},
     renderableElements: [],
-    activeElement: {}
+    activeElement: {
+        id: '',
+        attributes: {
+
+        },
+        styles: {
+
+        },
+        innerHTML: null
+    }
 }
 
 export default function(state = initialState, action) {
@@ -51,6 +63,7 @@ export default function(state = initialState, action) {
                 ...state,
                 isLoading: false,
                 pageData: action.payload,
+                renderableElements: ElementHelper.createElements(action.payload)
             }
         case PAGE_FAILURE:
             console.log('PAGE_FAILURE');
@@ -58,6 +71,12 @@ export default function(state = initialState, action) {
                 ...state,
                 isLoading: false,
                 error: action.error
+            }
+        case ELEMENT_SELECTED:
+            console.log('ELEMENT_SELECTED');
+            return {
+                ...state,
+                activeElement: action.payload
             }
         default:
             return state;

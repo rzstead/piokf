@@ -1,6 +1,7 @@
 import React from 'react';
+import WrapperElement from '../components/WrapperElement';
 
-function createElementFromType(type, data) {
+function createElementFromType(type, data, key) {
     switch (type) {
         case 'a':
             return <a href={data.attributes && data.attributes.href ? data.attributes.href : '#'} target='_blank' style={data.styles}>{data.innerHTML ? data.innerHTML : 'Placeholder Link'}</a>
@@ -17,6 +18,25 @@ function createElementFromType(type, data) {
     }
 }
 
+function createElements(pageData) {
+    let elements = [];
+
+    pageData.elements.map((element, i) => {
+        let type = element.type;
+        let key = i;
+        let data = {
+            innerHTML: element.innerHTML,
+            styles: element.styles[0],
+            attributes: element.attributes[0]
+        }
+        let renderableElement = createElementFromType(type, data, key);
+        elements.push(<WrapperElement key={key} element={element} renderableElement={renderableElement} />)
+        // elements.push(<div key={key} onClick={(e) => {this.onElementClicked(element)}}>{renderableElement}</div>)
+    });
+    return elements;
+}
+
 export var ElementHelper = {
-    createElementFromType: createElementFromType
+    createElementFromType: createElementFromType,
+    createElements: createElements
 }
