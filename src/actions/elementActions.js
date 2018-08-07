@@ -1,4 +1,4 @@
-import { ELEMENT_SELECTED, ELEMENT_DESELECTED, ELEMENT_UPDATED, ELEMENT_CREATED, ELEMENT_CREATE_FROM_TYPE, ELEMENT_ADDED_TO_PAGE } from './types';
+import { ELEMENT_SELECTED, ELEMENT_DESELECTED, ELEMENT_UPDATED, ELEMENT_CREATED, ELEMENT_CREATE_FROM_TYPE, ELEMENT_ADDED_TO_PAGE, RENDERABLE_ELEMENTS_CREATED } from './types';
 
 export const selectElement = (element) => dispatch => {
     console.log('elementActions => selectElement => ' + JSON.stringify(element));
@@ -28,4 +28,9 @@ export const createElementFromType = (type) => dispatch => {
 export const addElementToPage = (element) => dispatch => {
     console.log('elementActions => addElementToPage');
     dispatch({type: ELEMENT_ADDED_TO_PAGE, payload: element});
+}
+
+export const createRenderableElements = (elements) => dispatch => {
+    console.log('elementActions => createRenderableElements');
+    dispatch({type: RENDERABLE_ELEMENTS_CREATED, payload: elements});
 }

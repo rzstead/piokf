@@ -5,6 +5,7 @@ import { createElementFromType } from '../actions/elementActions';
 import BrowseComponent from './BrowseComponent';
 import ElementInsertComponent from './ElementInsertComponent';
 import ViewerComponent from './ViewerComponent';
+import BasicViewerComponent from './BasicViewerComponent';
 import InspectorComponent from './InspectorComponent';
 import CreateRibbonComponent from './CreateRibbonComponent';
 
@@ -32,6 +33,10 @@ class MotherComponent extends Component {
 
     render() {
         console.log('metas => ' + JSON.stringify(this.props.pageMetas));
+        let renderableElements = [
+            <h1>Test</h1>,
+            <h1>TestHello</h1>
+        ];
         return(
             <div style={{overflowY: 'hidden'}}>
                 <div style={{display: 'flex', flex: 12, height: '100vh'}} className='container'>
@@ -42,7 +47,8 @@ class MotherComponent extends Component {
                         <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked} />
                     </div>
                     <div style={{flex: 6, overflowY: 'auto'}} className='panel'>
-                        <ViewerComponent ref='viewer' page={this.props.page} />
+                        {/* <ViewerComponent ref='viewer' page={this.props.page} /> */}
+                        <BasicViewerComponent renderableElements={renderableElements} title='PageTitle'/>
                     </div>
                     <div style={{flex: 3, border: '1px solid #222'}} className='panel'>
                         <InspectorComponent />

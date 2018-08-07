@@ -1,11 +1,16 @@
-import { PAGE_REQUEST, PAGE_SUCCESS, PAGE_FAILURE, ELEMENT_ADDED_TO_PAGE } from '../actions/types';
+import React from 'react';
+
+import { PAGE_REQUEST, PAGE_SUCCESS, PAGE_FAILURE, ELEMENT_ADDED_TO_PAGE, RENDERABLE_ELEMENTS_CREATED } from '../actions/types';
 
 const initialState = {
     isLoading: true,
     error: null,
     page: {
-        elements: []
-    }
+        elements: [],
+    },
+    renderableElements: [
+        <p>No elements loaded!</p>
+    ]
 }
 
 
@@ -33,11 +38,15 @@ export default function(state = initialState, action) {
             }
         case ELEMENT_ADDED_TO_PAGE:
             console.log('pageReducer => ELEMENT_ADDED_TO_PAGE ==> TODO IMPLEMENT ME!!');
-            let page = state.page;
-            page.elements.push(action.payload);
             return {
                 ...state,
-                page: page
+                renderableElements: action.payload
+            }
+        case RENDERABLE_ELEMENTS_CREATED:
+            console.log('pageReducer => RENDERABLE_ELEMENTS_CREATED');
+            return {
+                ...state,
+                renderableElements: action.payload
             }
         default:
             return state;
