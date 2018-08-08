@@ -10,8 +10,8 @@ let mockPage1 = {
         }],
         styles: [{
             color: "red",
-            fontSize: 30,
-            backgroundColor: 'magenta'
+            "font-size": 30,
+            "background-color": 'magenta'
         }]
     }]
 }

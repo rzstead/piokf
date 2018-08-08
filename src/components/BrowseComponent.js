@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-
 export default class BrowseComponent extends Component{
     constructor(props) {
         super(props);
