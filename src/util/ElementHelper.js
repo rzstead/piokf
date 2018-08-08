@@ -18,6 +18,26 @@ function createElementFromType(type, data = {}, key) {
     }
 }
 
+function createPlaceholder(type) {
+    return {
+        type: type, 
+        id: '',
+        attributes: {
+
+        },
+        styles: {
+
+        },
+        innerHTML: 'test'
+    }
+}
+
+function createWrappedElement(type, element = {}, key) {
+    let renderableElement = createElementFromType(type, element, key);
+    return <WrapperElement key={key} element={element} renderableElement={renderableElement} />
+}
+
+
 function createElements(pageData) {
     let elements = [];
 
@@ -37,5 +57,7 @@ function createElements(pageData) {
 
 export var ElementHelper = {
     createElementFromType: createElementFromType,
-    createElements: createElements
+    createElements: createElements,
+    createPlaceholder: createPlaceholder,
+    createWrappedElement: createWrappedElement
 }

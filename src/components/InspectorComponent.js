@@ -28,6 +28,7 @@ export default class InspectorComponent extends Component {
         return(
             <div>
                 <h3 className='component-title'>Properties</h3>
+                {element && element.type ? <h2>{element.type}</h2>: ''}
                 {element && element.innerHTML ? <textarea value={element.innerHTML} /> : ''}
                 {attributeArray}
             </div>

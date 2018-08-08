@@ -61,7 +61,7 @@ export default function(state = initialState, action) {
                 isLoading: true
             }
         case PAGE_SUCCESS:
-            console.log('PAGE_SUCCESS');
+            console.log('PAGE_SUCCESS => ' + JSON.stringify(action.payload));
             return {
                 ...state,
                 isLoading: false,
@@ -84,14 +84,26 @@ export default function(state = initialState, action) {
             }
         case ELEMENT_ADDED:
             let type = action.payload;
-            // TODO this element needs to be wrapped so that we can edit later!
-            let element = ElementHelper.createElementFromType(type);
+            let placeholder = ElementHelper.createPlaceholder(type);
+            console.log('created placeholder => ' + JSON.stringify(placeholder));
+            let element = ElementHelper.createWrappedElement(type, placeholder);
             let elements = [...state.renderableElements];
             elements.push(element);
+
             return {
                 ...state,
                 renderableElements: elements
             }
+            // // TODO this element needs to be wrapped so that we can edit later!
+            // let placeholder = ElementHelper.createPlaceholder(type);
+            // let data = placeholder.data;
+            // let element = ElementHelper.createWrappedElement(type, data);
+            // let elements = [...state.renderableElements];
+            // elements.push(element);
+            // return {
+            //     ...state,
+            //     renderableElements: elements
+            // }
         default:
             return state;
     }
