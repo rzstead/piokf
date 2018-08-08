@@ -1,14 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPageMetas } from '../actions/metaActions';
+import { addElement } from '../actions/elementActions';
 import BrowseComponent from '../components/BrowseComponent';
 import ViewerComponent from '../components/ViewerComponent';
 import InspectorComponent from '../components/InspectorComponent';
+import CreateRibbonComponent from '../components/CreateRibbonComponent';
+import ElementInsertComponent from '../components/ElementInsertComponent';
 
 
 class MotherComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.onInsertElementClicked = this.onInsertElementClicked.bind(this);
+        this.onAddElementClicked = this.onAddElementClicked.bind(this);
+    }
+
     componentDidMount() {
         this.props.fetchPageMetas();
+    }
+
+    onInsertElementClicked(evt) {
+        console.log('MotherComponent => onInsertElementClicked');
+        let buttonBounds = evt.target.getBoundingClientRect();
+        this.refs.ribbon.showSelf(buttonBounds);
+    }
+
+    onAddElementClicked(type) {
+        console.log('MotherComponent => onAddElementClicked => ' + JSON.stringify(type));
+        this.props.addElement(type);
     }
 
     render() {
@@ -19,7 +39,7 @@ class MotherComponent extends Component {
                         <BrowseComponent pageMetas={this.props.pageMetas} />
                     </div>
                     <div className='element-insert'>
-                        {/* <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked} /> */}
+                        <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked} />
                     </div>
                     <div style={{flex: 6, overflowY: 'auto'}} className='panel'>
                         <h3>{this.props.pageData.title}</h3>
@@ -29,7 +49,7 @@ class MotherComponent extends Component {
                         <InspectorComponent activeElement={this.props.activeElement} />
                     </div>
                 </div>
-                {/* <CreateRibbonComponent ref='ribbon' onAddElementClicked={this.onAddElementClicked} /> */}
+                    <CreateRibbonComponent ref='ribbon' onAddElementClicked={this.onAddElementClicked} />
             </div>
         )
     }
@@ -49,6 +69,9 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchPageMetas: () => {
             dispatch(fetchPageMetas());
+        },
+        addElement: (type) => {
+            dispatch(addElement(type));
         }
     }
 };

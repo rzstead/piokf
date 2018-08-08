@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
     PAGE_META_REQUEST,
     PAGE_META_SUCCESS,
@@ -5,7 +7,8 @@ import {
     PAGE_REQUEST,
     PAGE_SUCCESS,
     PAGE_FAILURE,
-    ELEMENT_SELECTED
+    ELEMENT_SELECTED,
+    ELEMENT_ADDED
 } from '../actions/types';
 
 import { ElementHelper } from '../util/ElementHelper';
@@ -63,7 +66,8 @@ export default function(state = initialState, action) {
                 ...state,
                 isLoading: false,
                 pageData: action.payload,
-                renderableElements: ElementHelper.createElements(action.payload)
+                renderableElements: ElementHelper.createElements(action.payload),
+                activeElement: initialState.activeElement
             }
         case PAGE_FAILURE:
             console.log('PAGE_FAILURE');
@@ -77,6 +81,16 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 activeElement: action.payload
+            }
+        case ELEMENT_ADDED:
+            let type = action.payload;
+            // TODO this element needs to be wrapped so that we can edit later!
+            let element = ElementHelper.createElementFromType(type);
+            let elements = [...state.renderableElements];
+            elements.push(element);
+            return {
+                ...state,
+                renderableElements: elements
             }
         default:
             return state;
