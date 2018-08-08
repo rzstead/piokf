@@ -8,7 +8,8 @@ import {
     PAGE_SUCCESS,
     PAGE_FAILURE,
     ELEMENT_SELECTED,
-    ELEMENT_ADDED
+    ELEMENT_ADDED,
+    ROUTE_CHANGED
 } from '../actions/types';
 
 import { ElementHelper } from '../util/ElementHelper';
@@ -19,7 +20,7 @@ const initialState = {
     error: null,
     pageMetas: [],
     pageData: {},
-    renderableElements: [],
+    renderableElements: [<h1 style={{color: 'red'}}>Test</h1>],
     activeElement: {
         id: '',
         attributes: {
@@ -29,7 +30,8 @@ const initialState = {
 
         },
         innerHTML: null
-    }
+    },
+    routeName: "Viewer"
 }
 
 export default function(state = initialState, action) {
@@ -104,6 +106,11 @@ export default function(state = initialState, action) {
             //     ...state,
             //     renderableElements: elements
             // }
+        case ROUTE_CHANGED:
+            return{
+                ...state,
+                routeName: action.payload
+            }
         default:
             return state;
     }
