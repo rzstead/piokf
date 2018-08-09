@@ -9,6 +9,7 @@ import {
     PAGE_FAILURE,
     ELEMENT_SELECTED,
     ELEMENT_ADDED,
+    ELEMENT_UPDATED,
     ROUTE_CHANGED
 } from '../actions/types';
 
@@ -20,7 +21,7 @@ const initialState = {
     error: null,
     pageMetas: [],
     pageData: {},
-    renderableElements: [<h1 style={{color: 'red'}}>Test</h1>],
+    renderableElements: [],
     activeElement: {
         id: '',
         attributes: {
@@ -85,27 +86,28 @@ export default function(state = initialState, action) {
                 activeElement: action.payload
             }
         case ELEMENT_ADDED:
-            let type = action.payload;
-            let placeholder = ElementHelper.createPlaceholder(type);
+            var type = action.payload;
+            var placeholder = ElementHelper.createPlaceholder(type);
             console.log('created placeholder => ' + JSON.stringify(placeholder));
-            let element = ElementHelper.createWrappedElement(type, placeholder);
-            let elements = [...state.renderableElements];
+            var element = ElementHelper.createWrappedElement(type, placeholder);
+            var elements = [...state.renderableElements];
             elements.push(element);
 
             return {
                 ...state,
                 renderableElements: elements
             }
-            // // TODO this element needs to be wrapped so that we can edit later!
-            // let placeholder = ElementHelper.createPlaceholder(type);
-            // let data = placeholder.data;
-            // let element = ElementHelper.createWrappedElement(type, data);
-            // let elements = [...state.renderableElements];
-            // elements.push(element);
-            // return {
-            //     ...state,
-            //     renderableElements: elements
-            // }
+        case ELEMENT_UPDATED:
+            console.log('ELEMENT_UPDATED');
+            var updatedElementData = action.payload;
+            var updatedRenderableElement = ElementHelper.createElementFromType(updatedElementData.type, updatedElementData);
+            var elements = [updatedRenderableElement];
+            console.log('updatedElementData => ' + JSON.stringify(updatedElementData));
+            return {
+                ...state,
+                activeElement: updatedElementData,
+                renderableElements: elements
+            }
         case ROUTE_CHANGED:
             return{
                 ...state,

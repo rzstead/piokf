@@ -8,11 +8,11 @@ let mockPage1 = {
         attributes: [{
             href: "https://www.google.com"
         }],
-        styles: [{
+        styles: {
             color: "red",
             fontSize: 30,
             backgroundColor: 'magenta'
-        }]
+        }
     }]
 }
 
@@ -24,11 +24,11 @@ let mockPage2 = {
         type: "h1",
         innerHTML: "You got the second page, baby",
         attributes: [],
-        styles: [{
+        styles: {
             color: "blue",
             fontSize: 30,
             backgroundColor: 'seagreen'
-        }]
+        }
     }]
 }
 
@@ -43,10 +43,10 @@ let mockPage3 = {
             src: "https://media1.tenor.com/images/4be2fecb985dd9a80e22d3c32225b12d/tenor.gif",
             alt: "Noot gif"
         }],
-        styles: [{
+        styles: {
             height: "150",
             backgroundColor: 'blue'
-        }]
+        }
     }]
 }
 

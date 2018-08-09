@@ -46,7 +46,7 @@ function createElements(pageData) {
         let key = i;
         let data = {
             innerHTML: element.innerHTML,
-            styles: element.styles[0],
+            styles: element.styles,
             attributes: element.attributes[0]
         }
         let renderableElement = createElementFromType(type, data, key);
