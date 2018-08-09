@@ -192,3 +192,27 @@ nav a{
 nav a:hover{
   cursor: pointer;
 }
+
+.attribute-field {
+  flex: 10;
+  display: flex;
+  margin: 8px;
+  justify-content: space-between;
+}
+
+.attribute-field-name {
+  flex: 4;
+  align-self: center;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: left;
+}
+
+.attribute-field-value {
+  flex: 6;
+  font-size: 14px;
+}
+
+.attribute-field-value-color {
+  flex: 2;
+}

@@ -16,7 +16,7 @@ class WrapperElement extends Component {
 
     render() {
         return(
-            <div onClick={this.onElementClicked}>
+            <div class='element-wrapper' onClick={this.onElementClicked}>
                 {this.props.renderableElement}
             </div>
         )

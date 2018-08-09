@@ -10,9 +10,9 @@ class AttributeTextField extends Component {
         let name = this.props.name;
         let value = this.props.value;
         return(
-            <div style={{minWidth: 100}}>
-                <label>{name}</label><br />
-                <textarea value={value} onChange={(e) => {this.props.onChange(e, name)}} />
+            <div className='attribute-field'>
+                <label className='attribute-field-name'>{name}</label><br />
+                <textarea className='attribute-field-value' style={{resize: this.props.resize}} value={value} onChange={(e) => {this.props.onChange(e, name)}} />
             </div>
         )
     }
@@ -23,9 +23,11 @@ class ColorField extends Component {
         let name = this.props.name;
         let value = this.props.value;
         return(
-            <div>
-                <label>{name}</label>
-                <input type='color' name={name} value={value} onChange={(e) => {this.props.onChange(e, name)}} />
+            <div className='attribute-field'>
+                <label className='attribute-field-name'>{name}</label>
+                <input className='attribute-field-value-color' type='color' name={name} value={value} onChange={(e) => {this.props.onChange(e, name)}} />
+                {/* spacer */}
+                <div style={{flex: 4}} />
             </div>
         )
     }
@@ -109,7 +111,7 @@ class InspectorComponent extends Component {
                 // style is a color
                 element = <ColorField name={key} value={value} onChange={this.onStyleChange} />
             } else {
-                element = <AttributeTextField name={key} value={value} onChange={this.onStyleChange}/>
+                element = <AttributeTextField name={key} resize='none' value={value} onChange={this.onStyleChange}/>
             }
             stylesArray.push(element)
         }
