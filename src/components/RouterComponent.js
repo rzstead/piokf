@@ -4,15 +4,22 @@ import { changeRoute } from '../actions/pageActions';
 import MotherComponent from './MotherComponent';
 import ViewerComponent from './ViewerComponent';
 
-let LOGIN = 'Login';
-let EDITOR = 'Editor';
-let VIEWER = 'Viewer';
+let LOGIN = 'login';
+let EDITOR = 'editor';
+let VIEWER = 'viewer';
 
 class RouterComponent extends Component {
 
     constructor(props) {
         super(props);
         this.onButtonClick = this.onButtonClick.bind(this);
+    }
+
+    componentWillMount() {
+        const BASE_URL = 'http://localhost:3000/';
+        let route = window.location.href.replace(BASE_URL, '');
+        console.log('loading route => ' + route);
+        this.props.changeRoute(route);
     }
 
     onButtonClick(){
