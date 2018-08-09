@@ -55,11 +55,11 @@ let pageMetas = [{
         title: "Sweet First Page",
         children: [
             {
-                id: '5',
+                id: '2',
                 title: 'First Child'
             },
             {
-                id: '6',
+                id: '3',
                 title: 'Second Child'
             }
         ]

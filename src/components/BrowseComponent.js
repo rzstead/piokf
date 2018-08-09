@@ -8,7 +8,7 @@ class PageListItem extends Component {
         if(this.props.pageMeta.children){
             children = this.props.pageMeta.children.map(pageMeta => {
                 return <div className="page-tab page-child" style={{color: '#333'}}onClick={() => this.props.onClick(pageMeta)}>
-                            <h4>{pageMeta.title}</h4>
+                            <p>{pageMeta.title}</p>
                         </div>
             });
         }

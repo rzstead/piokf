@@ -88,8 +88,9 @@
 }
 
 .page-child{
-  padding: 5px;
+  padding: 10px;
   padding-left: 35px;
+  margin: 0px;
 }
 
 .element-insert{
