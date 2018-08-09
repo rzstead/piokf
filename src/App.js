@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
 import './App.css';
-import './dark-theme.css';
+// import './dark-theme.css';
 import MotherComponent from './components/MotherComponent';
 import RouterComponent from './components/RouterComponent';
 

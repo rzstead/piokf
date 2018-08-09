@@ -8,7 +8,7 @@
 
 .ribbon{
   position: absolute;
-  height: 42px;
+  width: 42px;
   background-color: rgb(85, 199, 81);
   overflow: hidden;
 }
@@ -37,8 +37,8 @@
 
 
 .ribbon.show{
-  transition: width .5s ease;
-  width: 200px;
+  transition: height .5s ease;
+  height: 220px;
   border-radius: 0 4px 4px 0;
   box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.404);
 }
@@ -60,18 +60,22 @@
 .ribbon.hide{
   transition: .5s ease;
   transition-delay: .1s;
-  width: 0;
+  height: 0;
   border-radius: 0;
   padding-left: 0;
   padding-right: 0;
 }
 
 .page-tab{
-  padding: 10px;
+  padding: 5px;
+  padding-left: 15px;
   border-bottom: 1px #ccc solid;
   line-height: 1;
   vertical-align: middle;
   margin: 0;
+  
+  color: #333;
+  text-align: left;
 }
 
 .page-tab:hover{
@@ -83,11 +87,21 @@
   box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.404);
 }
 
+.page-child{
+  padding: 5px;
+  padding-left: 35px;
+}
+
 .element-insert{
-  box-shadow: inset 0 0 2px 0 rgba(0, 0, 0, 0.404);
-  width: 25px;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.404);
+  width: 35px;
+  height: 35px;
+  margin-left: auto;
   text-align: center;
-  background-color: #eeeeee
+  border-radius: 100%;
+  text-align: center;
+  background-color: rgb(85, 199, 81);
+  color: white;
 }
 
 .element-wrapper{
@@ -101,11 +115,6 @@
   border-bottom: 1px #ccc solid;
   background-color: rgb(85, 199, 81);
   color: white;
-}
-
-.element-add{
-  color: #666;
-  position: relative;
 }
 
 .login-card{
@@ -166,4 +175,20 @@
   position: absolute;
   bottom: 15px;
   right: 15px;
+}
+
+nav{
+  background-color: #444;
+  text-align: left;
+  color: white;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+nav a{
+  margin: 5px;
+}
+
+nav a:hover{
+  cursor: pointer;
 }

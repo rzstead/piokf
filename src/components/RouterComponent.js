@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { changeRoute } from '../actions/pageActions';
+import { changeRoute, fetchPage } from '../actions/pageActions';
 import MotherComponent from './MotherComponent';
 import LoginComponent from './LoginComponent';
 import ViewerComponent from './ViewerComponent';
+import NavComponent from './NavComponent';
 
 let LOGIN = 'login';
 let EDITOR = 'editor';
@@ -20,10 +21,18 @@ class RouterComponent extends Component {
         let route = window.location.href.replace(BASE_URL, '');
         console.log('loading route => ' + route);
         this.props.changeRoute(route);
+        if(!route && this.props.renderableElements.length == 0){
+            this.props.fetchPage();
+        }
     }
 
     render() {
-        let component = <ViewerComponent renderableElements={this.props.renderableElements} />
+        let component = 
+        <div>
+            <NavComponent />
+            <ViewerComponent renderableElements={this.props.renderableElements} />
+        </div>
+
         switch (this.props.routeName) {
             case LOGIN:
                 component = <LoginComponent />
@@ -31,13 +40,10 @@ class RouterComponent extends Component {
             case EDITOR:
                 component = <MotherComponent />
                 break;
-            case VIEWER:
-                component = <ViewerComponent renderableElements={this.props.renderableElements} />
-                break;
         }
         return (
             <div>
-            {component}
+                {component}
             </div>
         );
     }
@@ -53,6 +59,9 @@ const mapDispatchToProps = dispatch => {
     return {
         changeRoute: (route) => {
             dispatch(changeRoute(route))
+        },
+        fetchPage: () => {
+            dispatch(fetchPage())
         }
     }
 };

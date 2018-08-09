@@ -4,10 +4,22 @@ import { fetchPage, createPage } from '../actions/pageActions';
 
 class PageListItem extends Component {
     render() {
+        let children;
+        if(this.props.pageMeta.children){
+            children = this.props.pageMeta.children.map(pageMeta => {
+                return <div className="page-tab page-child" style={{color: '#333'}}onClick={() => this.props.onClick(pageMeta)}>
+                            <h4>{pageMeta.title}</h4>
+                        </div>
+            });
+        }
         return(
-            <div onClick={() => this.props.onClick(this.props.element)}>
-                <h4>{this.props.element.title}</h4>
+            <div>
+                <div className='page-tab'onClick={() => this.props.onClick(this.props.pageMeta)}>
+                    <h4>{this.props.pageMeta.title}</h4>
+                </div>
+                {children}
             </div>
+
         )
     }
 }
@@ -41,9 +53,9 @@ class BrowseComponent extends Component {
         return(
             <div className="browser-component">
                 <h3 className="component-title">My Pages</h3>
-                {pageMetas.map((element, i) => 
+                {pageMetas.map((pageMeta, i) => 
                     {
-                    return <PageListItem key={i} element={element} onClick={this.onMetaClicked} />
+                    return <PageListItem key={i} pageMeta={pageMeta} onClick={this.onMetaClicked} />
                     })
                 }
                 <button onClick={this.onAddPageButtonClicked}>Add Page</button>
