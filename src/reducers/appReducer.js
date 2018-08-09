@@ -13,7 +13,8 @@ import {
     ELEMENT_SELECTED,
     ELEMENT_ADDED,
     ELEMENT_UPDATED,
-    ROUTE_CHANGED
+    ROUTE_CHANGED,
+    ELEMENT_DELETED
 } from '../actions/types';
 
 import { ElementHelper } from '../util/ElementHelper';
@@ -119,6 +120,11 @@ export default function(state = initialState, action) {
                 ...state,
                 activeElement: updatedElementData,
                 renderableElements: elements
+            }
+        case ELEMENT_DELETED:
+            return {
+                ...state,
+                activeElement: null
             }
         case ROUTE_CHANGED:
             return{
