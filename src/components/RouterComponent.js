@@ -13,7 +13,6 @@ class RouterComponent extends Component {
 
     constructor(props) {
         super(props);
-        this.onButtonClick = this.onButtonClick.bind(this);
     }
 
     componentWillMount() {
@@ -21,10 +20,6 @@ class RouterComponent extends Component {
         let route = window.location.href.replace(BASE_URL, '');
         console.log('loading route => ' + route);
         this.props.changeRoute(route);
-    }
-
-    onButtonClick(){
-        this.props.changeRoute('Editor');
     }
 
     render() {
@@ -43,7 +38,6 @@ class RouterComponent extends Component {
         return (
             <div>
             {component}
-            <button onClick={this.onButtonClick}>Click Me</button>
             </div>
         );
     }
