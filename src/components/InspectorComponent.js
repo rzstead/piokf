@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateElement, deleteElement } from '../actions/elementActions';
 import { savePage } from '../actions/pageActions';
+import { ElementHelper } from '../util/ElementHelper';
 
 // textfield for editing attributes of an element
 class AttributeTextField extends Component {
@@ -30,8 +31,6 @@ class TypeDropdown extends Component {
         )
     }
 }
-
-
 class InspectorComponent extends Component {
     constructor(props) {
         super(props);
@@ -65,6 +64,21 @@ class InspectorComponent extends Component {
         this.props.updateElement(updatedElement);
     }
 
+    getStylePropsArray(styles) {
+        let stylesArray = [];
+
+        for (let j = 0; j < styles.length; ++j) {
+            let style = styles[j];
+            let key = Object.keys(style)[0];
+            let value = style[key];
+
+            stylesArray.push(
+                <AttributeTextField name={key} value={value} />
+            )
+        }
+        return stylesArray;
+    }
+
     getAttributeArray(element) {
         let attributeArray = [];
 
@@ -90,14 +104,21 @@ class InspectorComponent extends Component {
     render() {
         const element = this.props.activeElement;
         let attributeArray = this.getAttributeArray(element);
-        // TODO get styles
+
+        let extractedStyles = ElementHelper.extractStyles(element);
+        let styleArray = this.getStylePropsArray(extractedStyles);
 
         return(
             <div>
                 <h3 className='component-title'>Properties</h3>
                 {element && element.type ? <div><label>Type:</label><br /><TypeDropdown onChange={this.onTypeChange} value={element.type} /></div> : null}
+                <h4>Attributes</h4>
                 {element && element.innerHTML ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
                 {attributeArray}
+
+                <h4>Styles</h4>
+                {styleArray}
+
                 {element && element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
                 {element && element.type ? <button onClick={this.onSavePageButtonClicked}>Save Page</button> : null}
             </div>
