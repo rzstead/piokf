@@ -120,6 +120,8 @@
   border-bottom: 1px #ccc solid;
   background-color: rgb(85, 199, 81);
   color: white;
+  position: sticky;
+  top: 0px;
 }
 
 .login-card{
@@ -231,4 +233,29 @@ nav a:hover{
 /* Change the background color of the dropdown button when the dropdown content is shown */
 .dropdown:hover .dropbtn {
   background-color: #3e8e41;
+
+}
+.attribute-field {
+  flex: 10;
+  display: flex;
+  margin: 8px;
+  justify-content: space-between;
+}
+
+.attribute-field-name {
+  flex: 4;
+  align-self: center;
+  font-weight: bold;
+  font-size: 12px;
+  text-align: left;
+}
+
+.attribute-field-value {
+  flex: 6;
+  font-size: 14px;
+}
+
+.attribute-field-value-color {
+  flex: 2;
+
 }

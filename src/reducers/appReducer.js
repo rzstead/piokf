@@ -40,7 +40,7 @@ const initialState = {
         innerHTML: null
     },
     routeName: "Viewer",
-    isAuthenticated: false,
+    isAuthenticated: true,
     navData: {
         brand: "Sweetums",
         links: [

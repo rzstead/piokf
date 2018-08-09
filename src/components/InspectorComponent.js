@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateElement, deleteElement } from '../actions/elementActions';
 import { savePage } from '../actions/pageActions';
+import { ElementHelper } from '../util/ElementHelper';
 
 // textfield for editing attributes of an element
 class AttributeTextField extends Component {
@@ -9,9 +10,24 @@ class AttributeTextField extends Component {
         let name = this.props.name;
         let value = this.props.value;
         return(
-            <div style={{minWidth: 100}}>
-                <label>{name}</label><br />
-                <textarea value={value} onChange={(e) => {this.props.onChange(e, name)}} />
+            <div className='attribute-field'>
+                <label className='attribute-field-name'>{name}</label><br />
+                <textarea className='attribute-field-value' style={{resize: this.props.resize}} value={value} onChange={(e) => {this.props.onChange(e, name)}} />
+            </div>
+        )
+    }
+}
+
+class ColorField extends Component {
+    render() {
+        let name = this.props.name;
+        let value = this.props.value;
+        return(
+            <div className='attribute-field'>
+                <label className='attribute-field-name'>{name}</label>
+                <input className='attribute-field-value-color' type='color' name={name} value={value} onChange={(e) => {this.props.onChange(e, name)}} />
+                {/* spacer */}
+                <div style={{flex: 4}} />
             </div>
         )
     }
@@ -30,8 +46,6 @@ class TypeDropdown extends Component {
         )
     }
 }
-
-
 class InspectorComponent extends Component {
     constructor(props) {
         super(props);
@@ -39,6 +53,8 @@ class InspectorComponent extends Component {
         this.onInnerHTMLChange = this.onInnerHTMLChange.bind(this);
         this.onTypeChange = this.onTypeChange.bind(this);
         this.onSavePageButtonClicked = this.onSavePageButtonClicked.bind(this);
+        this.onStyleChange = this.onStyleChange.bind(this);
+        this.updateElementStyle = this.updateElementStyle.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
@@ -65,6 +81,43 @@ class InspectorComponent extends Component {
         this.props.updateElement(updatedElement);
     }
 
+    onStyleChange(evt, name) {
+        console.log('InspectorComponent => onStyleChange => ' + name);
+        this.updateElementStyle(name, evt.target.value);
+    }
+
+    // updates the specified style with specified style value
+    updateElementStyle(styleName, styleValue) {
+        let updatedElement = {...this.props.activeElement};
+        let index = ElementHelper.findStyleAttributeIndex(styleName, updatedElement.styles);
+
+        if (index != -1) {
+            updatedElement.styles[index]['value'] = styleValue;
+            this.props.updateElement(updatedElement);
+        }
+    }
+
+    getStylePropsArray(styles) {
+        let stylesArray = [];
+
+        for (let j = 0; j < styles.length; ++j) {
+            let style = styles[j];
+            let key = Object.keys(style)[0];
+            let value = style[key];
+
+            let element;
+
+            if (key.match(/color/i)) {
+                // style is a color
+                element = <ColorField name={key} value={value} onChange={this.onStyleChange} />
+            } else {
+                element = <AttributeTextField name={key} resize='none' value={value} onChange={this.onStyleChange}/>
+            }
+            stylesArray.push(element)
+        }
+        return stylesArray;
+    }
+
     getAttributeArray(element) {
         let attributeArray = [];
 
@@ -87,19 +140,37 @@ class InspectorComponent extends Component {
         console.log('InspectorComponent => onSavePageButtonClicked => ' + JSON.stringify(this.props.page));
     }
 
+    onColorChange(evt) {
+        console.log('InspectorComponent => onColorChange => ' + evt.target.value);
+    }
+
     render() {
         const element = this.props.activeElement;
+        console.log('element => ' + JSON.stringify(element));
+
+        if (element.id == '') {
+            // return just the title, don't show any editable attributes
+            // probably a better way, but it works for now
+            return <h3 className='component-title'>Properties</h3>
+        }
+
         let attributeArray = this.getAttributeArray(element);
-        // TODO get styles
+        let extractedStyles = ElementHelper.extractStyles(element);
+        let styleArray = this.getStylePropsArray(extractedStyles);
 
         return(
             <div>
                 <h3 className='component-title'>Properties</h3>
-                {element && element.type ? <div><label>Type:</label><br /><TypeDropdown onChange={this.onTypeChange} value={element.type} /></div> : null}
-                {element && element.innerHTML ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
+                {element.type ? <div><label>Type:</label><br /><TypeDropdown onChange={this.onTypeChange} value={element.type} /></div> : null}
+                <h4>Attributes</h4>
+                {element.innerHTML ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
                 {attributeArray}
-                {element && element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
-                {element && element.type ? <button onClick={this.onSavePageButtonClicked}>Save Page</button> : null}
+
+                <h4>Styles</h4>
+                {styleArray}
+
+                {element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
+                {element.type ? <button onClick={this.onSavePageButtonClicked}>Save Page</button> : null}
             </div>
         )
     }
