@@ -2,31 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 .material-icons{
   margin: 5px;
 }
@@ -131,4 +106,64 @@
 .element-add{
   color: #666;
   position: relative;
+}
+
+.login-card{
+  width: 35%;
+  height: 250px;
+  background-color: rgb(85, 199, 81);
+  color: white;
+  margin: auto;
+  position: relative;
+  top: 20%;
+  min-width: 250px;
+  border-radius: 2px;
+  /* box-shadow: 0 0 2px 0 #444; */
+}
+
+.login-content{
+  position: relative;
+  top: 30px;
+  bottom: 25px;
+  text-align: center;
+}
+
+.login-content h2{
+  vertical-align: center;
+  margin: 15px;
+}
+
+.login-content input{
+  display: block;
+  border-radius: 2px;
+  border: none;
+  height: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.login-content input:hover{ 
+  box-shadow: 0 0 2px 0 blue;
+}
+
+.login-content input:focus{
+  box-shadow: 0 0 2px 0 blue;
+}
+
+.login-content label{
+  display:block;
+  margin: 10px;
+}
+
+.submit{
+  width: 100px;
+  display: block;
+  margin-top: 15px;
+  height: 25px;
+}
+
+.admin-link{
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
 }

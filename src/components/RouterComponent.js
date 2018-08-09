@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { changeRoute } from '../actions/pageActions';
 import MotherComponent from './MotherComponent';
+import LoginComponent from './LoginComponent';
 import ViewerComponent from './ViewerComponent';
 
 let LOGIN = 'login';
@@ -30,7 +31,7 @@ class RouterComponent extends Component {
         let component = <ViewerComponent renderableElements={this.props.renderableElements} />
         switch (this.props.routeName) {
             case LOGIN:
-                component = <h1 style={{ color: 'red' }}>Login</h1>
+                component = <LoginComponent />
                 break;
             case EDITOR:
                 component = <MotherComponent />
