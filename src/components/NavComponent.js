@@ -15,8 +15,21 @@ class NavComponent extends Component{
 
     render(){
         let links = this.props.navData.links.map(link => {
+            let children;
+            if(link.children){
+              children = <div className="dropdown-content">
+                    {link.children.map(child =>{
+                        return(
+                            <a key={child.id} onClick={() => {this.onLinkClicked(child.id)}}>{child.name}</a> 
+                        );
+                    })} 
+                </div>  
+            }
             return(
-                <a key={link.id} onClick={() => {this.onLinkClicked(link.id)}}>{link.name}</a>
+                <div className="dropdown">
+                    <a key={link.id} onClick={() => {this.onLinkClicked(link.id)}}>{link.name}</a> 
+                    {children}
+                </div>
             );
         });
         return <nav>
