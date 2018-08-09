@@ -103,24 +103,31 @@ class InspectorComponent extends Component {
 
     render() {
         const element = this.props.activeElement;
-        let attributeArray = this.getAttributeArray(element);
+        console.log('element => ' + JSON.stringify(element));
 
+        if (element.id == '') {
+            // return just the title, don't show any editable attributes
+            // probably a better way, but it works for now
+            return <h3 className='component-title'>Properties</h3>
+        }
+
+        let attributeArray = this.getAttributeArray(element);
         let extractedStyles = ElementHelper.extractStyles(element);
         let styleArray = this.getStylePropsArray(extractedStyles);
 
         return(
             <div>
                 <h3 className='component-title'>Properties</h3>
-                {element && element.type ? <div><label>Type:</label><br /><TypeDropdown onChange={this.onTypeChange} value={element.type} /></div> : null}
+                {element.type ? <div><label>Type:</label><br /><TypeDropdown onChange={this.onTypeChange} value={element.type} /></div> : null}
                 <h4>Attributes</h4>
-                {element && element.innerHTML ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
+                {element.innerHTML ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
                 {attributeArray}
 
                 <h4>Styles</h4>
                 {styleArray}
 
-                {element && element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
-                {element && element.type ? <button onClick={this.onSavePageButtonClicked}>Save Page</button> : null}
+                {element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
+                {element.type ? <button onClick={this.onSavePageButtonClicked}>Save Page</button> : null}
             </div>
         )
     }
