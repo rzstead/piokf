@@ -66,7 +66,7 @@ class InspectorComponent extends Component {
     getAttributeArray(element) {
         let attributeArray = [];
 
-        if (element != null) {
+        if (element != null && element.attributes != null) {
             for (let j = 0; j < element.attributes.length; ++j) {
                 let attributes = element.attributes[j];
 

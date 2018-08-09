@@ -1,3 +1,6 @@
+const BASE_API = 'http://neumontcsc270.dynu.net:2018/piokf-back';
+
+
 let mockPage1 = {
     id: "1",
     title: "Sweet First Page",
@@ -64,6 +67,13 @@ let pageMetas = [{
     }
 ]
 
+// async function getPage(id) {
+//     id = 2;
+//     console.log('PageService => getPage => ' + id);
+//     return fetch(`${BASE_API}/loadPageElements.php?id=${id}`)
+//         .then(res => res.json());
+// }
+
 async function getPage(id) {
     //take id and ask backend for page w/matching id
     return new Promise((resolve, reject) => {
@@ -90,16 +100,20 @@ async function getPage(id) {
 }
 
 function getPageMetas() {
-    fetch('http://neumontcsc270.dynu.net:2018/piokf-back/loadPages.php').then(res => res.json()).then(json => console.log('received from api: ' + JSON.stringify(json)));
+    console.log('PageService => getPageMetas');
+    return fetch(`${BASE_API}/loadPages.php`)
+        .then(res => res.json())
 
-    return new Promise((resolve, reject) => {
-        let itWorked = true;
-        if (itWorked) {
-            resolve(pageMetas);
-        } else {
-            reject(Error("Something went wrong with the Page service!"));
-        }
-    });
+    // fetch('http://neumontcsc270.dynu.net:2018/piokf-back/loadPages.php').then(res => res.json()).then(json => console.log('received from api: ' + JSON.stringify(json)));
+
+    // return new Promise((resolve, reject) => {
+    //     let itWorked = true;
+    //     if (itWorked) {
+    //         resolve(pageMetas);
+    //     } else {
+    //         reject(Error("Something went wrong with the Page service!"));
+    //     }
+    // });
 }
 
 async function createPage(page) {
