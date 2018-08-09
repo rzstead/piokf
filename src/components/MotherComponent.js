@@ -43,6 +43,7 @@ class MotherComponent extends Component {
                     </div>
                     <div style={{flex: 6, overflowY: 'auto'}} className='panel'>
                         <h3>{this.props.pageData.title}</h3>
+                        {/* <NavComponent /> */}
                         <ViewerComponent renderableElements={this.props.renderableElements} />
                     </div>
                     <div style={{flex: 3, border: '1px solid #222'}} className='panel'>

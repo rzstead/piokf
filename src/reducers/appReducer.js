@@ -7,6 +7,9 @@ import {
     PAGE_REQUEST,
     PAGE_SUCCESS,
     PAGE_FAILURE,
+    AUTH_REQUEST,
+    AUTH_SUCCESS,
+    AUTH_FAILURE,
     ELEMENT_SELECTED,
     ELEMENT_ADDED,
     ELEMENT_UPDATED,
@@ -32,7 +35,16 @@ const initialState = {
         },
         innerHTML: null
     },
-    routeName: "Viewer"
+    routeName: "Viewer",
+    isAuthenticated: true,
+    navLinks: [
+        {name: 'OtherPage', id: 5},
+        {name: 'SecondOtherPage', id: 6}
+    ]
+    //this is test data for the nav links
+    //have a separate nav component that always sits on top of viewer component
+    //elements are now wrapped based on authentication status
+    //other things I can't recall
 }
 
 export default function(state = initialState, action) {
@@ -69,7 +81,7 @@ export default function(state = initialState, action) {
                 ...state,
                 isLoading: false,
                 pageData: action.payload,
-                renderableElements: ElementHelper.createElements(action.payload),
+                renderableElements: ElementHelper.createElements(action.payload, state.isAuthenticated),
                 activeElement: initialState.activeElement
             }
         case PAGE_FAILURE:
@@ -113,7 +125,30 @@ export default function(state = initialState, action) {
                 ...state,
                 routeName: action.payload
             }
+        case AUTH_REQUEST:
+            return{
+                ...state,
+                isLoading: true
+            }
+        case AUTH_SUCCESS:
+            //setRoute('editor');
+            return{
+               ...state,
+               isLoading: false,
+               isAuthenticated: true,
+               routeName: 'editor'
+            }
+        case AUTH_FAILURE:
+            return{
+               ...state,
+               isLoading: false,
+               isAuthenticated: false 
+            }    
         default:
             return state;
     }
+}
+
+function setRoute(route){
+    window.location.href = "http://localhost:3000/" + route;
 }

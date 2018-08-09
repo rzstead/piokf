@@ -38,7 +38,7 @@ function createWrappedElement(type, element = {}, key) {
 }
 
 
-function createElements(pageData) {
+function createElements(pageData, isWrapped) {
     let elements = [];
 
     pageData.elements.map((element, i) => {
@@ -49,8 +49,11 @@ function createElements(pageData) {
             styles: element.styles,
             attributes: element.attributes[0]
         }
-        let renderableElement = createElementFromType(type, data, key);
-        elements.push(<WrapperElement key={key} element={element} renderableElement={renderableElement} />)
+        if(isWrapped){
+            elements.push(createWrappedElement(type, data, key));
+        }else{
+            elements.push(createElementFromType(type, element, key));
+        }
     });
     return elements;
 }
