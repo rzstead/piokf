@@ -52,7 +52,17 @@ let mockPage3 = {
 
 let pageMetas = [{
         id: "1",
-        title: "Sweet First Page"
+        title: "Sweet First Page",
+        children: [
+            {
+                id: '5',
+                title: 'First Child'
+            },
+            {
+                id: '6',
+                title: 'Second Child'
+            }
+        ]
     },
     {
         id: "2",

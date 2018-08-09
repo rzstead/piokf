@@ -7,6 +7,7 @@ import ViewerComponent from '../components/ViewerComponent';
 import InspectorComponent from '../components/InspectorComponent';
 import CreateRibbonComponent from '../components/CreateRibbonComponent';
 import ElementInsertComponent from '../components/ElementInsertComponent';
+import NavComponent from '../components/NavComponent';
 
 
 class MotherComponent extends Component {
@@ -38,13 +39,17 @@ class MotherComponent extends Component {
                     <div style={{flex: 3, height: '100vh', overflowY: 'auto', border: '1px solid #222'}} className='panel'>
                         <BrowseComponent pageMetas={this.props.pageMetas} />
                     </div>
-                    <div className='element-insert'>
-                        <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked} />
-                    </div>
-                    <div style={{flex: 6, overflowY: 'auto'}} className='panel'>
-                        <h3>{this.props.pageData.title}</h3>
-                        {/* <NavComponent /> */}
-                        <ViewerComponent renderableElements={this.props.renderableElements} />
+                    <div style={{flex: 6, overflowY: 'auto', position: 'relative'}} className='panel'>
+                        <div style={{display: 'flex', flex: 12, flexDirection: 'column', justifyContent: 'space-between', height: '100%', overflow: 'hidden'}}>
+                            {/* <h3>{this.props.pageData.title}</h3> */}
+                            <NavComponent />
+                            <div style={{display: 'flex', flex: 11}}>
+                                <ViewerComponent renderableElements={this.props.renderableElements} />
+                            </div>
+                            <div style={{display: 'flex', flex: 1, maxHeight: 35, padding: 15, justifySelf: 'flex-end'}}>
+                                <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked} />
+                            </div>
+                        </div>
                     </div>
                     <div style={{flex: 3, border: '1px solid #222'}} className='panel'>
                         <InspectorComponent activeElement={this.props.activeElement} />

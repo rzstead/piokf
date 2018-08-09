@@ -14,8 +14,8 @@ export default class CreateRibbonComponent extends Component{
     }
 
     showSelf(buttonBounds){
-        let top = buttonBounds.bottom - 34;
-        let left = buttonBounds.left;
+        let top = buttonBounds.bottom - 220;
+        let left = buttonBounds.left - 8;
         this.setState({top: top, left: left, className:'ribbon show'});
     }
 

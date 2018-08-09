@@ -36,11 +36,15 @@ const initialState = {
         innerHTML: null
     },
     routeName: "Viewer",
-    isAuthenticated: true,
-    navLinks: [
-        {name: 'OtherPage', id: 5},
-        {name: 'SecondOtherPage', id: 6}
-    ]
+    isAuthenticated: false,
+    navData: {
+        brand: "Sweetums",
+        links: [
+            {name: 'OtherPage', id: 5},
+            {name: 'SecondOtherPage', id: 6}
+        ]
+    }
+
     //this is test data for the nav links
     //have a separate nav component that always sits on top of viewer component
     //elements are now wrapped based on authentication status

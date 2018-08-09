@@ -19,7 +19,7 @@ export const fetchPage = (id) => dispatch => {
 }
 
 export const changeRoute = (route) => dispatch => {
-    console.log('changing route');
+    console.log('changing route to ' + route);
     dispatch({type: ROUTE_CHANGED, payload: route});
 }
 
