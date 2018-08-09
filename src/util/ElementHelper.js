@@ -50,7 +50,7 @@ function createElements(pageData, isWrapped) {
             attributes: element.attributes[0]
         }
         if(isWrapped){
-            elements.push(createWrappedElement(type, data, key));
+            elements.push(createWrappedElement(type, element, key));
         }else{
             elements.push(createElementFromType(type, element, key));
         }
