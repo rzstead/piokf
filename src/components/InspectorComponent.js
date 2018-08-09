@@ -51,8 +51,8 @@ class InspectorComponent extends Component {
         this.onInnerHTMLChange = this.onInnerHTMLChange.bind(this);
         this.onTypeChange = this.onTypeChange.bind(this);
         this.onSavePageButtonClicked = this.onSavePageButtonClicked.bind(this);
-        this.onColorStyleChange = this.onColorStyleChange.bind(this);
         this.onStyleChange = this.onStyleChange.bind(this);
+        this.updateElementStyle = this.updateElementStyle.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
@@ -79,16 +79,20 @@ class InspectorComponent extends Component {
         this.props.updateElement(updatedElement);
     }
 
-    onColorStyleChange(evt, name) {
-        console.log('InspectorComponent => onColorStyleChange => ' + name);
-        let color = evt.target.value;
-        let updatedElement = {...this.props.activeElement};
-        updatedElement.styles[0]['value'] = color;
-        this.props.updateElement(updatedElement);
-    }
-
     onStyleChange(evt, name) {
         console.log('InspectorComponent => onStyleChange => ' + name);
+        this.updateElementStyle(name, evt.target.value);
+    }
+
+    // updates the specified style with specified style value
+    updateElementStyle(styleName, styleValue) {
+        let updatedElement = {...this.props.activeElement};
+        let index = ElementHelper.findStyleAttributeIndex(styleName, updatedElement.styles);
+
+        if (index != -1) {
+            updatedElement.styles[index]['value'] = styleValue;
+            this.props.updateElement(updatedElement);
+        }
     }
 
     getStylePropsArray(styles) {
@@ -103,9 +107,9 @@ class InspectorComponent extends Component {
 
             if (key.match(/color/i)) {
                 // style is a color
-                element = <ColorField name={key} value={value} onChange={this.onColorStyleChange} />
+                element = <ColorField name={key} value={value} onChange={this.onStyleChange} />
             } else {
-                element = <AttributeTextField name={key} value={value} onChange={this.styleChange}/>
+                element = <AttributeTextField name={key} value={value} onChange={this.onStyleChange}/>
             }
             stylesArray.push(element)
         }
