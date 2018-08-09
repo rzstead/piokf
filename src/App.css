@@ -115,6 +115,8 @@
   border-bottom: 1px #ccc solid;
   background-color: rgb(85, 199, 81);
   color: white;
+  position: sticky;
+  top: 0px;
 }
 
 .login-card{
