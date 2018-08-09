@@ -58,9 +58,29 @@ function createElements(pageData, isWrapped) {
     return elements;
 }
 
+// extract the {'attribute': 'value'} styles from element into
+// an array containing the actual value for each such as
+// [{'backgroundColor': 'red'}, {'fontSize': 18}]
+function extractStyles(element) {
+    let stylesArray = [];
+
+    if (element != null && element.styles != null) {
+        for (var j = 0; j < element.styles.length; ++j) {
+            // {attribute: 'someAttribute', value: 'someValue'}
+            let styleObject = element.styles[0];
+            let style = {
+                [styleObject.attribute]: styleObject.value
+            }
+            stylesArray.push(style);
+        }
+    }
+    return stylesArray;
+}
+
 export var ElementHelper = {
     createElementFromType: createElementFromType,
     createElements: createElements,
     createPlaceholder: createPlaceholder,
-    createWrappedElement: createWrappedElement
+    createWrappedElement: createWrappedElement,
+    extractStyles: extractStyles
 }
