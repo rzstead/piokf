@@ -18,6 +18,19 @@ class AttributeTextField extends Component {
     }
 }
 
+class ColorField extends Component {
+    render() {
+        let name = this.props.name;
+        let value = this.props.value;
+        return(
+            <div>
+                <label>{name}</label>
+                <input type='color' name={name} value={value} onChange={(e) => {this.props.onChange(e, name)}} />
+            </div>
+        )
+    }
+}
+
 class TypeDropdown extends Component {
     render() {
         return (
@@ -38,6 +51,8 @@ class InspectorComponent extends Component {
         this.onInnerHTMLChange = this.onInnerHTMLChange.bind(this);
         this.onTypeChange = this.onTypeChange.bind(this);
         this.onSavePageButtonClicked = this.onSavePageButtonClicked.bind(this);
+        this.onColorStyleChange = this.onColorStyleChange.bind(this);
+        this.onStyleChange = this.onStyleChange.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
@@ -64,6 +79,18 @@ class InspectorComponent extends Component {
         this.props.updateElement(updatedElement);
     }
 
+    onColorStyleChange(evt, name) {
+        console.log('InspectorComponent => onColorStyleChange => ' + name);
+        let color = evt.target.value;
+        let updatedElement = {...this.props.activeElement};
+        updatedElement.styles[0]['value'] = color;
+        this.props.updateElement(updatedElement);
+    }
+
+    onStyleChange(evt, name) {
+        console.log('InspectorComponent => onStyleChange => ' + name);
+    }
+
     getStylePropsArray(styles) {
         let stylesArray = [];
 
@@ -72,9 +99,15 @@ class InspectorComponent extends Component {
             let key = Object.keys(style)[0];
             let value = style[key];
 
-            stylesArray.push(
-                <AttributeTextField name={key} value={value} />
-            )
+            let element;
+
+            if (key.match(/color/i)) {
+                // style is a color
+                element = <ColorField name={key} value={value} onChange={this.onColorStyleChange} />
+            } else {
+                element = <AttributeTextField name={key} value={value} onChange={this.styleChange}/>
+            }
+            stylesArray.push(element)
         }
         return stylesArray;
     }
@@ -99,6 +132,10 @@ class InspectorComponent extends Component {
 
     onSavePageButtonClicked() {
         console.log('InspectorComponent => onSavePageButtonClicked => ' + JSON.stringify(this.props.page));
+    }
+
+    onColorChange(evt) {
+        console.log('InspectorComponent => onColorChange => ' + evt.target.value);
     }
 
     render() {
