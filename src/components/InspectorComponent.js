@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateElement } from '../actions/elementActions';
+import { updateElement, deleteElement } from '../actions/elementActions';
+import { savePage } from '../actions/pageActions';
 
 // textfield for editing attributes of an element
 class AttributeTextField extends Component {
@@ -37,6 +38,7 @@ class InspectorComponent extends Component {
         this.onAttributeChange = this.onAttributeChange.bind(this);
         this.onInnerHTMLChange = this.onInnerHTMLChange.bind(this);
         this.onTypeChange = this.onTypeChange.bind(this);
+        this.onSavePageButtonClicked = this.onSavePageButtonClicked.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
@@ -66,17 +68,23 @@ class InspectorComponent extends Component {
     getAttributeArray(element) {
         let attributeArray = [];
 
-        for (let j = 0; j < element.attributes.length; ++j) {
-            let attributes = element.attributes[j];
+        if (element != null && element.attributes != null) {
+            for (let j = 0; j < element.attributes.length; ++j) {
+                let attributes = element.attributes[j];
 
-            for (let attribute in attributes) {
-                let value = attributes[attribute];
-                attributeArray.push(
-                    <AttributeTextField name={attribute} value={value} onChange={this.onAttributeChange} />
-                )
+                for (let attribute in attributes) {
+                    let value = attributes[attribute];
+                    attributeArray.push(
+                        <AttributeTextField name={attribute} value={value} onChange={this.onAttributeChange} />
+                    )
+                }
             }
         }
         return attributeArray;
+    }
+
+    onSavePageButtonClicked() {
+        console.log('InspectorComponent => onSavePageButtonClicked => ' + JSON.stringify(this.props.page));
     }
 
     render() {
@@ -90,17 +98,29 @@ class InspectorComponent extends Component {
                 {element && element.type ? <div><label>Type:</label><br /><TypeDropdown onChange={this.onTypeChange} value={element.type} /></div> : null}
                 {element && element.innerHTML ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
                 {attributeArray}
+                {element && element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
+                {element && element.type ? <button onClick={this.onSavePageButtonClicked}>Save Page</button> : null}
             </div>
         )
     }
 }
 
+const mapStateToProps = state => ({
+    page: state.app.pageData
+});
+
 const mapDispatchToProps = dispatch => {
     return {
         updateElement: (element) => {
             dispatch(updateElement(element));
+        },
+        deleteElement: (element) => {
+            dispatch(deleteElement(element));
+        },
+        savePage: (page) => {
+            dispatch(savePage(page));
         }
     }
 }
 
-export default connect(null, mapDispatchToProps)(InspectorComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(InspectorComponent);

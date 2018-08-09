@@ -1,3 +1,6 @@
+const BASE_API = 'http://neumontcsc270.dynu.net:2018/piokf-back';
+
+
 let mockPage1 = {
     id: "1",
     title: "Sweet First Page",
@@ -74,46 +77,31 @@ let pageMetas = [{
     }
 ]
 
-async function getPage(id) {
-    //take id and ask backend for page w/matching id
-    return new Promise((resolve, reject) => {
-        let itWorked = true;
-        if (itWorked) {
-            switch (id) {
-                case '1':
-                    resolve(mockPage1);
-                    break;
-                case '2':
-                    resolve(mockPage2);
-                    break;
-                case '3':
-                    resolve(mockPage3);
-                    break;
-                default:
-                    resolve(mockPage1);
-                    break;
-            }
-        } else {
-            reject(Error("Something went wrong with the Page service!"));
-        }
-    });
+function getPage(id) {
+    console.log('PageService => getPage => ' + id);
+    return fetch(`${BASE_API}/loadPageElements.php?id=${id}`)
+        .then(res => res.json());
 }
 
 function getPageMetas() {
-    fetch('http://neumontcsc270.dynu.net:2018/piokf-back/loadPages.php').then(res => res.json()).then(json => console.log('received from api: ' + JSON.stringify(json)));
-
-    return new Promise((resolve, reject) => {
-        let itWorked = true;
-        if (itWorked) {
-            resolve(pageMetas);
-        } else {
-            reject(Error("Something went wrong with the Page service!"));
-        }
-    });
+    console.log('PageService => getPageMetas');
+    return fetch(`${BASE_API}/loadPages.php`)
+        .then(res => res.json());
 }
 
-async function createPage(page) {
+function savePage(page) {
+    console.log('PageService => savePage');
+    return fetch(`${BASE_API}/savePage.php`, {
+        type: 'POST',
+        body: JSON.stringify(page)
+    }).then(res => res.json());
+}
 
+function createPage(page) {
+    return fetch(`${BASE_API}/addPage.php`, {
+        type: 'POST',
+        body: JSON.stringify(page)
+    }).then(res => res.json());
 }
 
 async function updatePage(page) {
@@ -126,5 +114,7 @@ async function deletePage(page) {
 
 export var PageService = {
     getPage: getPage,
-    getPageMetas: getPageMetas
+    getPageMetas: getPageMetas,
+    savePage: savePage,
+    createPage: createPage
 }
