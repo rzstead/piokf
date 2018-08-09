@@ -9,9 +9,23 @@ class AttributeTextField extends Component {
         let value = this.props.value;
         return(
             <div style={{minWidth: 100}}>
-                <label>{name}</label>
+                <label>{name}</label><br />
                 <textarea value={value} onChange={(e) => {this.props.onChange(e, name)}} />
             </div>
+        )
+    }
+}
+
+class TypeDropdown extends Component {
+    render() {
+        return (
+            <select name='type' style={{fontSize: 18, border: '1px solid white'}} onChange={this.props.onChange}>
+                {/* TODO this could be generated dynamically w/ a service, but time is short for now */}
+                <option value='a' selected={this.props.value == 'a'}>Link</option>
+                <option value='img' selected={this.props.value == 'img'}>Image</option>
+                <option value='h1' selected={this.props.value == 'h1'}>Header (H1)</option>
+                <option value='p' selected={this.props.value == 'p'}>Paragraph</option>
+            </select>
         )
     }
 }
@@ -22,6 +36,7 @@ class InspectorComponent extends Component {
         super(props);
         this.onAttributeChange = this.onAttributeChange.bind(this);
         this.onInnerHTMLChange = this.onInnerHTMLChange.bind(this);
+        this.onTypeChange = this.onTypeChange.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
@@ -37,6 +52,14 @@ class InspectorComponent extends Component {
         console.log('InspectorComponent => onInnerHTMLCHange => ' + innerHTML);
         let updatedElement = {...this.props.activeElement};
         updatedElement.innerHTML = innerHTML;
+        this.props.updateElement(updatedElement);
+    }
+
+    onTypeChange(evt) {
+        console.log('InspectorComponent => onTypeChange');
+        let type = evt.target.value;
+        let updatedElement = {...this.props.activeElement};
+        updatedElement.type = type;
         this.props.updateElement(updatedElement);
     }
 
@@ -64,7 +87,7 @@ class InspectorComponent extends Component {
         return(
             <div>
                 <h3 className='component-title'>Properties</h3>
-                {element && element.type ? <h2>{element.type}</h2>: ''}
+                {element && element.type ? <div><label>Type:</label><br /><TypeDropdown onChange={this.onTypeChange} value={element.type} /></div> : null}
                 {element && element.innerHTML ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
                 {attributeArray}
             </div>
