@@ -40,8 +40,8 @@ const initialState = {
     navData: {
         brand: "Sweetums",
         links: [
-            {name: 'OtherPage', id: 5},
-            {name: 'SecondOtherPage', id: 6}
+            {name: 'OtherPage', id: '2'},
+            {name: 'SecondOtherPage', id: '3'}
         ]
     }
 

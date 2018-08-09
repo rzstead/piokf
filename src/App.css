@@ -188,3 +188,7 @@ nav{
 nav a{
   margin: 5px;
 }
+
+nav a:hover{
+  cursor: pointer;
+}

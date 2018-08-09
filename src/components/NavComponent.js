@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { fetchPage } from '../actions/pageActions';
 class NavComponent extends Component{
 
     constructor(props){
@@ -8,13 +9,14 @@ class NavComponent extends Component{
     }
 
     onLinkClicked(id){
-        
+        console.log('link with id: ' + id + " clicked!");
+        this.props.fetchPage(id);
     }
 
     render(){
         let links = this.props.navData.links.map(link => {
             return(
-                <a onClick={this.onLinkClicked(link.id)}>{link.name}</a>
+                <a key={link.id} onClick={() => {this.onLinkClicked(link.id)}}>{link.name}</a>
             );
         });
         return <nav>
@@ -24,16 +26,16 @@ class NavComponent extends Component{
     }
 }
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         fetchLinks: () => {
-//             dispatch(fetchLinks())
-//         }
-//     }
-// };
+const mapDispatchToProps = dispatch => {
+    return {
+        fetchPage: (id) => {
+            dispatch(fetchPage(id))
+        }
+    }
+};
 
 const mapStateToProps = state => ({
     navData: state.app.navData
 });
 
-export default connect(mapStateToProps, null)(NavComponent)
+export default connect(mapStateToProps, mapDispatchToProps)(NavComponent)
