@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPage } from '../actions/pageActions';
+import { fetchPage, createPage } from '../actions/pageActions';
 
 class PageListItem extends Component {
     render() {
@@ -16,11 +16,23 @@ class BrowseComponent extends Component {
     constructor(props) {
         super(props);
         this.onMetaClicked = this.onMetaClicked.bind(this);
+        this.onAddPageButtonClicked = this.onAddPageButtonClicked.bind(this);
     }
 
     onMetaClicked(meta) {
         console.log('BrowseComponent => onMetaClicked => ' + JSON.stringify(meta));
         this.props.fetchPage(meta.id);
+    }
+
+    onAddPageButtonClicked() {
+        console.log('BrowseComponent => onAddPageButtonClicked');
+        // placeholder for now... Waiting for API to be fixed
+        let page = {
+            title: 'Some fun page',
+            parent_page_id: null
+        };
+        console.log('addPage => TODO call API when it is implemented!');
+        // this.props.createPage(page);
     }
 
     render() {
@@ -34,6 +46,7 @@ class BrowseComponent extends Component {
                     return <PageListItem key={i} element={element} onClick={this.onMetaClicked} />
                     })
                 }
+                <button onClick={this.onAddPageButtonClicked}>Add Page</button>
             </div>
         )
     }
@@ -43,6 +56,9 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchPage: (id) => {
             dispatch(fetchPage(id));
+        },
+        createPage: (page) => {
+            dispatch(createPage(page));
         }
     }
 }

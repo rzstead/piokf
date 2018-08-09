@@ -7,6 +7,9 @@ import {
     PAGE_REQUEST,
     PAGE_SUCCESS,
     PAGE_FAILURE,
+    SAVE_PAGE_REQUEST,
+    SAVE_PAGE_SUCCESS,
+    SAVE_PAGE_FAILURE,
     AUTH_REQUEST,
     AUTH_SUCCESS,
     AUTH_FAILURE,
@@ -87,6 +90,26 @@ export default function(state = initialState, action) {
             }
         case PAGE_FAILURE:
             console.log('PAGE_FAILURE');
+            return {
+                ...state,
+                isLoading: false,
+                error: action.error
+            }
+        case SAVE_PAGE_REQUEST:
+            console.log('SAVE_PAGE_REQUEST');
+            return {
+                ...state,
+                isLoading: true
+            }
+        case SAVE_PAGE_SUCCESS:
+            console.log('SAVE_PAGE_SUCCESS');
+            return {
+                ...state,
+                isLoading: false,
+                pageData: action.payload
+            }
+        case SAVE_PAGE_FAILURE:
+            console.log('SAVE_PAGE_FAILURE');
             return {
                 ...state,
                 isLoading: false,

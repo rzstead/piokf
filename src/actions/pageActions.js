@@ -1,4 +1,18 @@
-import { PAGE_REQUEST, PAGE_SUCCESS, PAGE_FAILURE, AUTH_REQUEST, AUTH_SUCCESS, AUTH_FAILURE, ROUTE_CHANGED } from './types';
+import {
+    PAGE_REQUEST,
+    PAGE_SUCCESS,
+    PAGE_FAILURE,
+    CREATE_PAGE_REQUEST,
+    CREATE_PAGE_SUCCESS,
+    CREATE_PAGE_FAILURE,
+    SAVE_PAGE_REQUEST,
+    SAVE_PAGE_SUCCESS,
+    SAVE_PAGE_FAILURE,
+    AUTH_REQUEST,
+    AUTH_SUCCESS,
+    AUTH_FAILURE,
+    ROUTE_CHANGED
+} from './types';
 
 import { PageService } from '../services/PageService';
 
@@ -14,6 +28,34 @@ export const fetchPage = (id) => dispatch => {
         }))
         .catch(err => dispatch({
             type: PAGE_FAILURE,
+            error: err
+        }));
+}
+
+export const savePage = (page) => dispatch => {
+    console.log('pageActions => savePage');
+    dispatch({ type: SAVE_PAGE_REQUEST });
+    PageService.savePage(page)
+        .then(json => dispatch({
+            type: SAVE_PAGE_SUCCESS,
+            payload: json
+        }))
+        .catch(err => dispatch({
+            type: SAVE_PAGE_FAILURE,
+            error: err
+        }));
+}
+
+export const createPage = (page) => dispatch => {
+    console.log('pageActions => addPage');
+    dispatch({ type: CREATE_PAGE_REQUEST });
+    PageService.createPage(page)
+        .then(json => dispatch({
+            type: CREATE_PAGE_SUCCESS,
+            payload: json
+        }))
+        .catch(err => dispatch({
+            type: CREATE_PAGE_FAILURE,
             error: err
         }));
 }

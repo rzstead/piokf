@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateElement, deleteElement } from '../actions/elementActions';
+import { savePage } from '../actions/pageActions';
 
 // textfield for editing attributes of an element
 class AttributeTextField extends Component {
@@ -37,6 +38,7 @@ class InspectorComponent extends Component {
         this.onAttributeChange = this.onAttributeChange.bind(this);
         this.onInnerHTMLChange = this.onInnerHTMLChange.bind(this);
         this.onTypeChange = this.onTypeChange.bind(this);
+        this.onSavePageButtonClicked = this.onSavePageButtonClicked.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
@@ -81,6 +83,10 @@ class InspectorComponent extends Component {
         return attributeArray;
     }
 
+    onSavePageButtonClicked() {
+        console.log('InspectorComponent => onSavePageButtonClicked => ' + JSON.stringify(this.props.page));
+    }
+
     render() {
         const element = this.props.activeElement;
         let attributeArray = this.getAttributeArray(element);
@@ -93,10 +99,15 @@ class InspectorComponent extends Component {
                 {element && element.innerHTML ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
                 {attributeArray}
                 {element && element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
+                {element && element.type ? <button onClick={this.onSavePageButtonClicked}>Save Page</button> : null}
             </div>
         )
     }
 }
+
+const mapStateToProps = state => ({
+    page: state.app.pageData
+});
 
 const mapDispatchToProps = dispatch => {
     return {
@@ -105,8 +116,11 @@ const mapDispatchToProps = dispatch => {
         },
         deleteElement: (element) => {
             dispatch(deleteElement(element));
+        },
+        savePage: (page) => {
+            dispatch(savePage(page));
         }
     }
 }
 
-export default connect(null, mapDispatchToProps)(InspectorComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(InspectorComponent);

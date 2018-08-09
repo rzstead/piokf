@@ -67,7 +67,7 @@ let pageMetas = [{
     }
 ]
 
-async function getPage(id) {
+function getPage(id) {
     console.log('PageService => getPage => ' + id);
     return fetch(`${BASE_API}/loadPageElements.php?id=${id}`)
         .then(res => res.json());
@@ -79,8 +79,19 @@ function getPageMetas() {
         .then(res => res.json());
 }
 
-async function createPage(page) {
+function savePage(page) {
+    console.log('PageService => savePage');
+    return fetch(`${BASE_API}/savePage.php`, {
+        type: 'POST',
+        body: JSON.stringify(page)
+    }).then(res => res.json());
+}
 
+function createPage(page) {
+    return fetch(`${BASE_API}/addPage.php`, {
+        type: 'POST',
+        body: JSON.stringify(page)
+    }).then(res => res.json());
 }
 
 async function updatePage(page) {
@@ -93,5 +104,7 @@ async function deletePage(page) {
 
 export var PageService = {
     getPage: getPage,
-    getPageMetas: getPageMetas
+    getPageMetas: getPageMetas,
+    savePage: savePage,
+    createPage: createPage
 }
