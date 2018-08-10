@@ -41,7 +41,6 @@ class MotherComponent extends Component {
                     </div>
                     <div style={{flex: 6, overflowY: 'auto', position: 'relative'}} className='panel'>
                         <div style={{display: 'flex', flex: 12, flexDirection: 'column', justifyContent: 'space-between', height: '100%', overflow: 'hidden'}}>
-                            {/* <h3>{this.props.pageData.title}</h3> */}
                             <NavComponent />
                             <div style={{display: 'flex', flex: 11}}>
                                 <ViewerComponent renderableElements={this.props.renderableElements} />
@@ -51,7 +50,7 @@ class MotherComponent extends Component {
                             </div>
                         </div>
                     </div>
-                    <div style={{flex: 3, border: '1px solid #222'}} className='panel'>
+                    <div style={{flex: 3, overflowY: 'auto', border: '1px solid #222'}} className='panel'>
                         <InspectorComponent activeElement={this.props.activeElement} />
                     </div>
                 </div>
