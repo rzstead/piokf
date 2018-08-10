@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPage } from '../actions/pageActions';
+import { fetchPageMetas } from '../actions/metaActions';
+
 class NavComponent extends Component{
 
     constructor(props){
@@ -13,27 +15,31 @@ class NavComponent extends Component{
         this.props.fetchPage(id);
     }
 
+    componentWillMount(){
+        this.props.fetchPageMetas();
+    }
+
     render(){
-        let links = this.props.navData.links.map(link => {
+        console.log(this.props.pageMetas)
+        let links = this.props.pageMetas.map(page => {
             let children;
-            if(link.children){
+            if(page.children){
               children = <div className="dropdown-content">
-                    {link.children.map(child =>{
+                    {page.children.map(child =>{
                         return(
-                            <a key={child.id} onClick={() => {this.onLinkClicked(child.id)}}>{child.name}</a> 
+                            <a key={child.id} onClick={() => {this.onLinkClicked(child.id)}}>{child.title}</a> 
                         );
                     })} 
                 </div>  
             }
             return(
                 <div className="dropdown">
-                    <a key={link.id} onClick={() => {this.onLinkClicked(link.id)}}>{link.name}</a> 
+                    <a key={page.id} onClick={() => {this.onLinkClicked(page.id)}}>{page.title}</a> 
                     {children}
                 </div>
             );
         });
         return <nav>
-                    <h3 style={{marginLeft:15, marginRight: 15, display:'inline-block'}}>{this.props.navData.brand}</h3>
                     {links}
                </nav>
     }
@@ -43,12 +49,15 @@ const mapDispatchToProps = dispatch => {
     return {
         fetchPage: (id) => {
             dispatch(fetchPage(id))
+        },
+        fetchPageMetas: () =>{
+            dispatch(fetchPageMetas())
         }
     }
 };
 
 const mapStateToProps = state => ({
-    navData: state.app.navData
+    pageMetas: state.app.pageMetas,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavComponent)

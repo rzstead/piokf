@@ -16,6 +16,7 @@ class PageListItem extends Component {
             <div>
                 <div className='page-tab'onClick={() => this.props.onClick(this.props.pageMeta)}>
                     <h4>{this.props.pageMeta.title}</h4>
+                <button onClick={() => this.props.onSubPageAdd(this.props.pageMeta.id)} className="sub-page-button">Add Sub Page</button>
                 </div>
                 {children}
             </div>
@@ -29,11 +30,19 @@ class BrowseComponent extends Component {
         super(props);
         this.onMetaClicked = this.onMetaClicked.bind(this);
         this.onAddPageButtonClicked = this.onAddPageButtonClicked.bind(this);
+        this.onSubPageAdd = this.onSubPageAdd.bind(this);
     }
 
     onMetaClicked(meta) {
         console.log('BrowseComponent => onMetaClicked => ' + JSON.stringify(meta));
         this.props.fetchPage(meta.id);
+    }
+
+    onSubPageAdd(parentId){
+        var childTitle = prompt("Enter your Sub Page name.");
+        if(childTitle){
+            this.props.addChildPage(childTitle, parentId);
+        }
     }
 
     onAddPageButtonClicked() {
@@ -55,7 +64,7 @@ class BrowseComponent extends Component {
                 <h3 className="component-title">My Pages</h3>
                 {pageMetas.map((pageMeta, i) => 
                     {
-                    return <PageListItem key={i} pageMeta={pageMeta} onClick={this.onMetaClicked} />
+                    return <PageListItem key={i} pageMeta={pageMeta} onSubPageAdd={this.onSubPageAdd} onClick={this.onMetaClicked} />
                     })
                 }
                 <button onClick={this.onAddPageButtonClicked}>Add Page</button>
@@ -71,6 +80,9 @@ const mapDispatchToProps = dispatch => {
         },
         createPage: (page) => {
             dispatch(createPage(page));
+        },
+        addChildPage: (childTitle, parentId) => {
+            dispatch(addChildPage(childTitle, parentId))
         }
     }
 }
