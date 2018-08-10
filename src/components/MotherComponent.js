@@ -49,7 +49,7 @@ class MotherComponent extends Component {
                         <div style={{display: 'flex', flex: 12, flexDirection: 'column', justifyContent: 'space-between', height: '100%', overflow: 'hidden'}}>
                             <NavComponent />
                             <div style={{display: 'flex', flex: 11}}>
-                                <ViewerComponent renderableElements={this.props.renderableElements} />
+                                <ViewerComponent isLoading={this.props.isLoading} renderableElements={this.props.renderableElements} />
                             </div>
                             <div style={{display: 'flex', flex: 1, maxHeight: 35, padding: 15, justifySelf: 'flex-end'}}>
                                 <ElementInsertComponent ref='ribbon' onInsertElementClicked={this.onInsertElementClicked} />
@@ -74,7 +74,7 @@ const mapStateToProps = state => ({
     pageData: state.app.pageData,
     renderableElements: state.app.renderableElements,
     activeElement: state.app.activeElement,
-    isAuthenticated: state.app.isAuthenticated
+    isAuthenticated: state.app.isAuthenticated,
 });
 
 const mapDispatchToProps = dispatch => {

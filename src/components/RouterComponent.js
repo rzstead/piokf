@@ -6,6 +6,7 @@ import LoginComponent from './LoginComponent';
 import ViewerComponent from './ViewerComponent';
 import NavComponent from './NavComponent';
 
+
 let LOGIN = 'login';
 let EDITOR = 'editor';
 let VIEWER = 'viewer';
@@ -30,7 +31,7 @@ class RouterComponent extends Component {
         let component = 
         <div>
             <NavComponent />
-            <ViewerComponent renderableElements={this.props.renderableElements} />
+            <ViewerComponent isLoading={this.props.isLoading} renderableElements={this.props.renderableElements} />
         </div>
 
         switch (this.props.routeName) {
@@ -52,7 +53,8 @@ class RouterComponent extends Component {
 
 const mapStateToProps = state => ({
     routeName: state.app.routeName,
-    renderableElements: state.app.renderableElements
+    renderableElements: state.app.renderableElements,
+    isLoading: state.app.isLoading
 });
 
 const mapDispatchToProps = dispatch => {
