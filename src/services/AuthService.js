@@ -2,7 +2,7 @@
 function authenticate(user, pass){
     let headers = new Headers();
     headers.append('Authorization', 'Basic ' + user + ':' + pass);
-    fetch('http://neumontcsc270.dynu.net:2018/piokf-back/login.php', {
+    return fetch('http://neumontcsc270.dynu.net:2018/piokf-back/login.php', {
         method: 'post',
         headers: headers
     })
