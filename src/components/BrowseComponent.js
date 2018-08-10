@@ -12,13 +12,15 @@ class PageListItem extends Component {
                         </div>
             });
         }
+        children.push(
+             <div className='page-tab add-sub-page'>
+                <i onClick={() => this.props.onSubPageAdd(this.props.pageMeta.id)} className="material-icons">add</i>
+             </div>
+        );
         return(
             <div>
                 <div className='page-tab'onClick={() => this.props.onClick(this.props.pageMeta)}>
                     <h4>{this.props.pageMeta.title}</h4>
-                    <div className='element-insert' onClick={() => this.props.onSubPageAdd(this.props.pageMeta.id)}>
-                        <i className="material-icons">add</i>
-                    </div>
                 </div>
                 {children}
             </div>
@@ -64,12 +66,14 @@ class BrowseComponent extends Component {
         return(
             <div className="browser-component">
                 <h3 className="component-title">My Pages</h3>
-                {pageMetas.map((pageMeta, i) => 
+                {pageMetas.map((pageMeta, i) =>
                     {
                     return <PageListItem key={i} pageMeta={pageMeta} onSubPageAdd={this.onSubPageAdd} onClick={this.onMetaClicked} />
                     })
                 }
-                <button onClick={this.onAddPageButtonClicked}>Add Page</button>
+                <div className='add-parent-page' onClick={this.onAddPageButtonClicked}>
+                    <i className='material-icons'>add</i>
+                </div>
             </div>
         )
     }
