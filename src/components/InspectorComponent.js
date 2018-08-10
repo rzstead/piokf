@@ -306,7 +306,9 @@ class InspectorComponent extends Component {
 const mapStateToProps = state => ({
     page: state.app.pageData,
     availableStyles: state.app.availableStyles,
-    availableAttributes: ['alt', 'href']
+
+    // TODO -- not sure why this isn't getting wired through state.app.availableAttributes
+    availableAttributes: ['alt', 'href', 'src']
 });
 
 const mapDispatchToProps = dispatch => {
