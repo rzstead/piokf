@@ -120,7 +120,7 @@ export default function(state = initialState, action) {
                 pageData: action.payload
             }
         case SAVE_PAGE_FAILURE:
-            console.log('SAVE_PAGE_FAILURE');
+            console.log('SAVE_PAGE_FAILURE => ' + action.error);
             return {
                 ...state,
                 isLoading: false,
