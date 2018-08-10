@@ -15,7 +15,7 @@ function getPageMetas() {
 function savePage(page) {
     console.log('PageService => savePage');
     return fetch(`${BASE_API}/savePage.php`, {
-        type: 'POST',
+        method: 'POST',
         body: JSON.stringify(page)
     }).then(res => res.json());
 }
