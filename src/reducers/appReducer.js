@@ -23,7 +23,10 @@ import {
     ELEMENT_ADDED,
     ELEMENT_UPDATED,
     ROUTE_CHANGED,
-    ELEMENT_DELETED
+    ELEMENT_DELETED,
+    DELETE_PAGE_REQUEST,
+    DELETE_PAGE_FAILURE,
+    DELETE_PAGE_SUCCESS 
 } from '../actions/types';
 
 import { ElementHelper } from '../util/ElementHelper';
@@ -232,7 +235,7 @@ export default function(state = initialState, action) {
             return {
                ...state,
                isLoading: false,
-               isAuthenticated: false 
+               isAuthenticated: false
             }   
         case CREATE_CHILD_PAGE_REQUEST:
             console.log("CREATE_CHILD_PAGE_REQUEST");
@@ -279,6 +282,29 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 isLoading: false,
+                error: action.error
+            }
+        case DELETE_PAGE_REQUEST:
+            console.log("DELETE_PAGE_REQUEST");
+            return{
+                ...state,
+                isLoading: true
+            }
+        case DELETE_PAGE_SUCCESS:
+            console.log("DELETE_PAGE_SUCCESS");
+            var pageMetas = [...state.pageMetas];
+            var removeIndex = pageMetas.findIndex(meta => {
+                return(meta.id === action.payload.id);
+            })
+            pageMetas.splice(removeIndex, 1);
+                return{
+                    ...state,
+                    pageMetas: pageMetas
+                }
+        case DELETE_PAGE_FAILURE:
+        console.log("DELETE_PAGE_FAILURE: " + action.error);
+            return{
+                ...state,
                 error: action.error
             }
         default:

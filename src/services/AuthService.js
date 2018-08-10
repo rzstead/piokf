@@ -5,11 +5,7 @@ function authenticate(username, password){
     return fetch(`${BASE_API}/login.php`, {
         method: 'POST',
         body: JSON.stringify({username: username, password: password})
-    }).then(res => res.json())
-    .then(json => {
-        console.log("AUTH RESPONSE: " + JSON.stringify(json));
-        }
-    );
+    }).then(res => res.json());
 }
 
 export var AuthService = {

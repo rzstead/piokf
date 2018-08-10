@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPage, createPage, createChildPage } from '../actions/pageActions';
+import { fetchPage, createPage, createChildPage, deletePage } from '../actions/pageActions';
 
 class PageListItem extends Component {
     render() {
         let children = [];
         if(this.props.pageMeta.children){
             children = this.props.pageMeta.children.map(pageMeta => {
-                return <div className="page-tab page-child" style={{color: '#333'}}onClick={() => this.props.onClick(pageMeta)}>
-                            <p>{pageMeta.title}</p>
+                return <div className="page-tab page-child" style={{color: '#333'}}>
+                            <span className='page-tab-wrapper'>
+                                <p onClick={() => this.props.onClick(pageMeta)}>{pageMeta.title}</p>
+                                <i onClick={() => this.props.onDeletePageClicked(pageMeta.id)} className='material-icons page-delete'>delete</i>
+                            </span>
                         </div>
             });
         }
@@ -19,8 +22,11 @@ class PageListItem extends Component {
         );
         return(
             <div>
-                <div className='page-tab'onClick={() => this.props.onClick(this.props.pageMeta)}>
-                    <h4>{this.props.pageMeta.title}</h4>
+                <div className='page-tab'>
+                    <span className='page-tab-wrapper'>
+                        <h4 onClick={() => this.props.onClick(this.props.pageMeta)}>{this.props.pageMeta.title}</h4>
+                        <i onClick={() => this.props.onDeletePageClicked(this.props.pageMeta.id)} className='material-icons page-delete'>delete</i>
+                    </span>
                 </div>
                 {children}
             </div>
@@ -35,6 +41,7 @@ class BrowseComponent extends Component {
         this.onMetaClicked = this.onMetaClicked.bind(this);
         this.onAddPageButtonClicked = this.onAddPageButtonClicked.bind(this);
         this.onSubPageAdd = this.onSubPageAdd.bind(this);
+        this.onDeletePageClicked = this.onDeletePageClicked.bind(this);
     }
 
     onMetaClicked(meta) {
@@ -58,6 +65,10 @@ class BrowseComponent extends Component {
         }
     }
 
+    onDeletePageClicked(pageId){
+        this.props.deletePage(pageId);
+    }
+
     render() {
         let pageMetas = this.props.pageMetas || [];
 
@@ -66,7 +77,7 @@ class BrowseComponent extends Component {
                 <h3 className="component-title">My Pages</h3>
                 {pageMetas.map((pageMeta, i) =>
                     {
-                    return <PageListItem key={i} pageMeta={pageMeta} onSubPageAdd={this.onSubPageAdd} onClick={this.onMetaClicked} />
+                    return <PageListItem key={i} pageMeta={pageMeta} onSubPageAdd={this.onSubPageAdd} onDeletePageClicked={this.onDeletePageClicked} onClick={this.onMetaClicked} />
                     })
                 }
                 <div className='add-parent-page' onClick={this.onAddPageButtonClicked}>
@@ -87,6 +98,9 @@ const mapDispatchToProps = dispatch => {
         },
         createChildPage: (childTitle, parentId) => {
             dispatch(createChildPage(childTitle, parentId))
+        },
+        deletePage: (id) => {
+            dispatch(deletePage(id))
         }
     }
 }
