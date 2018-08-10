@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchPage, createPage } from '../actions/pageActions';
+import { fetchPage, createPage, createChildPage } from '../actions/pageActions';
 
 class PageListItem extends Component {
     render() {
@@ -16,7 +16,9 @@ class PageListItem extends Component {
             <div>
                 <div className='page-tab'onClick={() => this.props.onClick(this.props.pageMeta)}>
                     <h4>{this.props.pageMeta.title}</h4>
-                <button onClick={() => this.props.onSubPageAdd(this.props.pageMeta.id)} className="sub-page-button">Add Sub Page</button>
+                    <div className='element-insert' onClick={() => this.props.onSubPageAdd(this.props.pageMeta.id)}>
+                        <i className="material-icons">add</i>
+                    </div>
                 </div>
                 {children}
             </div>
@@ -41,7 +43,7 @@ class BrowseComponent extends Component {
     onSubPageAdd(parentId){
         var childTitle = prompt("Enter your Sub Page name.");
         if(childTitle){
-            this.props.addChildPage(childTitle, parentId);
+            this.props.createChildPage(childTitle, parentId);
         }
     }
 
@@ -81,10 +83,14 @@ const mapDispatchToProps = dispatch => {
         createPage: (page) => {
             dispatch(createPage(page));
         },
-        addChildPage: (childTitle, parentId) => {
-            dispatch(addChildPage(childTitle, parentId))
+        createChildPage: (childTitle, parentId) => {
+            dispatch(createChildPage(childTitle, parentId))
         }
     }
 }
 
-export default connect(null, mapDispatchToProps)(BrowseComponent);
+const mapStateToProps = state => ({
+    pageMetas: state.app.pageMetas,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(BrowseComponent);
