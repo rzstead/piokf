@@ -20,6 +20,18 @@ function mergeExtractedStylesToObject(extractedStyles) {
     return styles;
 }
 
+function mergeExtractedAttributesToObject(extractedAttributes) {
+    let attributes = {};
+
+    for (let j = 0; j < extractedAttributes.length; ++j) {
+        let attribute = extractedAttributes[j];
+        let key = Object.keys(attribute)[0];
+        let value = attribute[key];
+        attributes[key] = value;
+    }
+    return attributes;
+}
+
 // this is a hack to get around how the API stores its styles:
 // example:
 // before => {'attribute': 'color', 'value': '#f00'}
@@ -29,14 +41,25 @@ function mapStyles(data) {
     return mergeExtractedStylesToObject(extractedStyles);
 }
 
+// this is a hack to get around how API stores its attributes:
+// example:
+// before => { 'name': 'href', 'value': 'www.google.com' }
+// after  => { 'href': 'www.google.com' }
+function mapAttributes(data) {
+    let extractedAttributes = extractAttributes(data);
+    console.log('extractedAttributes => ' + JSON.stringify(extractedAttributes));
+    return mergeExtractedAttributesToObject(extractedAttributes);
+}
+
 function createElementFromType(type, data = {}, key) {
     let styles = mapStyles(data);
+    let attributes = mapAttributes(data);
 
     switch (type) {
         case 'a':
-            return <a href={data.attributes && data.attributes.href ? data.attributes.href : '#'} target='_blank' style={styles}>{data.innerHTML ? data.innerHTML : 'Placeholder Link'}</a>
+            return <a href={attributes.href ? attributes.href : '#'} target='_blank' style={styles}>{data.innerHTML ? data.innerHTML : 'Placeholder Link'}</a>
         case 'img':
-            return <img src={data.attributes && data.attributes.src ? data.attributes.src : 'https://noot.space/noot.gif'} alt={data.attributes && data.attributes.alt && data.attributes.alt ? data.attributes.alt : 'noot.gif'} style={styles}/>
+            return <img src={attributes.src ? attributes.src : 'https://noot.space/noot.gif'} alt={data.attributes.alt ? data.attributes.alt : 'noot.gif'} style={styles}/>
         case 'h1':
             return <h1 style={styles}>{data.innerHTML ? data.innerHTML : 'PlaceHolder Header'}</h1>
         case 'hr':
@@ -103,6 +126,20 @@ function findStyleAttributeIndex(attributeType, styleArray) {
     return index;
 }
 
+// find the correct attribute in the attributeArray
+function findDataAttributeIndex(attributeType, attributeArray) {
+    let index = -1;
+
+    for (let j = 0; j < attributeArray.length; ++j) {
+        let attribute = attributeArray[j];
+        if (attribute.name == attributeType) {
+            index = j;
+            break;
+        }
+    }
+    return index;
+}
+
 // extract the {'attribute': 'value'} styles from element into
 // an array containing the actual value for each such as
 // [{'backgroundColor': 'red'}, {'fontSize': 18}]
@@ -122,11 +159,28 @@ function extractStyles(element) {
     return stylesArray;
 }
 
+function extractAttributes(element) {
+    let attributesArray = [];
+    
+    if (element != null && element.attributes != null) {
+        for (var j = 0; j < element.attributes.length; ++j) {
+            // { name: 'attribute_name', value: 'someValue' }
+            let attributeObject = element.attributes[j];
+            let attribute = {
+                [attributeObject.name]: attributeObject.value
+            }
+            attributesArray.push(attribute);
+        }
+    }
+    return attributesArray;
+}
+
 export var ElementHelper = {
     createElementFromType: createElementFromType,
     createElements: createElements,
     createPlaceholder: createPlaceholder,
     createWrappedElement: createWrappedElement,
     extractStyles: extractStyles,
-    findStyleAttributeIndex: findStyleAttributeIndex
+    findStyleAttributeIndex: findStyleAttributeIndex,
+    findDataAttributeIndex: findDataAttributeIndex
 }

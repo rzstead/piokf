@@ -55,14 +55,12 @@ class InspectorComponent extends Component {
         this.onSavePageButtonClicked = this.onSavePageButtonClicked.bind(this);
         this.onStyleChange = this.onStyleChange.bind(this);
         this.updateElementStyle = this.updateElementStyle.bind(this);
+        this.updateElementAttribute = this.updateElementAttribute.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
         console.log('InspectorComponent => onAttributeChange => ' + attribute + ' => ' + evt.target.value);
-        let updatedElement = {...this.props.activeElement};
-        updatedElement.attributes[0][attribute] = evt.target.value;
-        console.log('InspectorComponent => activeElement => ' + JSON.stringify(this.props.activeElement));
-        this.props.updateElement(updatedElement);
+        this.updateElementAttribute(attribute, evt.target.value);
     }
 
     onInnerHTMLChange(evt) {
@@ -97,6 +95,19 @@ class InspectorComponent extends Component {
         }
     }
 
+    updateElementAttribute(attributeName, attributeValue) {
+        let updatedElement = {...this.props.activeElement};
+        let index = ElementHelper.findDataAttributeIndex(attributeName, updatedElement.attributes);
+
+        console.log('InspectorComponent => updateElementAttribute => ' + attributeName + ' => ' + attributeValue + ' => ' + index);
+
+        if (index != -1) {
+            console.log('element index for attribute => ' + index);
+            updatedElement.attributes[index]['value'] = attributeValue;
+            this.props.updateElement(updatedElement);
+        }
+    }
+
     getStylePropsArray(styles) {
         let stylesArray = [];
 
@@ -124,13 +135,12 @@ class InspectorComponent extends Component {
         if (element != null && element.attributes != null) {
             for (let j = 0; j < element.attributes.length; ++j) {
                 let attributes = element.attributes[j];
+                let key = attributes['name'];
+                let value = attributes['value'];
 
-                for (let attribute in attributes) {
-                    let value = attributes[attribute];
-                    attributeArray.push(
-                        <AttributeTextField name={attribute} value={value} onChange={this.onAttributeChange} />
-                    )
-                }
+                attributeArray.push(
+                    <AttributeTextField name={key} value={value} onChange={this.onAttributeChange} />
+                )
             }
         }
         return attributeArray;
