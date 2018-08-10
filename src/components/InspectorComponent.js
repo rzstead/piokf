@@ -226,7 +226,7 @@ class InspectorComponent extends Component {
     onAddStyleButtonClicked(evt, styles) {
         console.log('InspectorComponent => onAddStyleButtonClicked => ' + JSON.stringify(styles));
         let activeElement = {...this.props.activeElement};
-        let elementStyles = [...activeElement.styles] || [];
+        let elementStyles = [...activeElement.styles];
 
         for (let j = 0; j < styles.length; ++j) {
             let style = styles[j];
@@ -234,12 +234,13 @@ class InspectorComponent extends Component {
 
             // property doesn't exist on our element, so let's add it
             if (index == -1) {
-                activeElement.styles.push({
+                elementStyles.push({
                     attribute: style,
                     value: ''
                 });
             }
         }
+        activeElement.styles = elementStyles;
         this.props.updateElement(activeElement);
     }
 
