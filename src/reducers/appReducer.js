@@ -147,15 +147,40 @@ export default function(state = initialState, action) {
                 renderableElements: renderableElements
             }
         case ELEMENT_UPDATED:
-            console.log('ELEMENT_UPDATED');
             var updatedElementData = action.payload;
-            var updatedRenderableElement = ElementHelper.createElementFromType(updatedElementData.type, updatedElementData);
-            var elements = [updatedRenderableElement];
-            console.log('updatedElementData => ' + JSON.stringify(updatedElementData));
+
+            var pageData = {...state.pageData};
+
+            // find the element in our pageData that matches our updatedElement and replace it
+            for (let j = 0; j < pageData.elements.length; ++j) {
+                var element = pageData.elements[j];
+                if (element.id == updatedElementData.id) {
+                    pageData.elements[j] = updatedElementData;
+                    console.log('pageData element updated');
+                    break;
+                }
+            }
+
+            console.log('ELEMENT_UPDATED => ' + JSON.stringify(updatedElementData));
+
+            // update the renderableElement that matches our updatedElement and replace it
+            var renderableElements = [...state.renderableElements];
+
+            for (let j = 0; j < renderableElements.length; ++j) {
+                var renderableElement = renderableElements[j];
+                if (renderableElement.props.element.id == updatedElementData.id) {
+                    var updatedRenderableElement = ElementHelper.createWrappedElement(updatedElementData.type, updatedElementData);
+                    renderableElements[j] = updatedRenderableElement;
+                    console.log('renderableElement updated');
+                    break;
+                }
+            }
+
             return {
                 ...state,
                 activeElement: updatedElementData,
-                renderableElements: elements
+                pageData: pageData,
+                renderableElements: renderableElements
             }
         case ELEMENT_DELETED:
             return {
