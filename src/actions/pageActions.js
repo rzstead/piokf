@@ -5,6 +5,9 @@ import {
     CREATE_PAGE_REQUEST,
     CREATE_PAGE_SUCCESS,
     CREATE_PAGE_FAILURE,
+    DELETE_PAGE_REQUEST,
+    DELETE_PAGE_SUCCESS,
+    DELETE_PAGE_FAILURE,
     SAVE_PAGE_REQUEST,
     SAVE_PAGE_SUCCESS,
     SAVE_PAGE_FAILURE,
@@ -64,6 +67,25 @@ export const createPage = (title) => dispatch => {
         }));
 }
 
+export const deletePage = (id) => dispatch => {
+    console.log("pageActions => deletePage id: " + id);
+    dispatch({ type: DELETE_PAGE_REQUEST });
+    PageService.deletePage(id)
+        .then(status => {
+            if (status == 200) {
+                dispatch({
+                    type: DELETE_PAGE_SUCCESS,
+                    payload: { id: id }
+                })
+            }
+        }
+        )
+        .catch(err => dispatch({
+            type: DELETE_PAGE_FAILURE,
+            error: err
+        }));
+}
+
 export const createChildPage = (childTitle, parentId) => dispatch => {
     console.log('pageActions => createChildPage');
     dispatch({ type: CREATE_CHILD_PAGE_REQUEST });
@@ -92,12 +114,15 @@ export const login = (user, pass) => dispatch => {
     dispatch({type: AUTH_REQUEST});
 
     AuthService.authenticate(user, pass)
-        .then(headers => {
-            
+        .then(json => {
+            if(json.message.includes('success')){
                 dispatch({
                     type: AUTH_SUCCESS
                 })
+            }else{
+                alert('Invalid Credentials')
             }
+        }
         )
         .catch(err => dispatch({
             type: AUTH_FAILURE,

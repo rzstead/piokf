@@ -24,8 +24,7 @@ function createPage(title) {
     var headers = new Headers();
     return fetch(`${BASE_API}/addParentPage.php`, {
         method: 'POST',
-        body: JSON.stringify({title: title}),
-        credentials: 'include'
+        body: JSON.stringify({title: title})
     }).then(res => res.json());
 }
 
@@ -40,8 +39,9 @@ async function updatePage(page) {
 
 }
 
-async function deletePage(page) {
-
+function deletePage(pageId) {
+    return fetch(`${BASE_API}/deletePage.php?id=${pageId}`)
+        .then(res => res.status);
 }
 
 export var PageService = {
@@ -49,5 +49,6 @@ export var PageService = {
     getPageMetas: getPageMetas,
     savePage: savePage,
     createPage: createPage,
-    createChildPage: createChildPage
+    createChildPage: createChildPage,
+    deletePage: deletePage
 }
