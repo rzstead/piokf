@@ -127,7 +127,7 @@ class InspectorComponent extends Component {
 
     onInnerHTMLChange(evt) {
         let innerHTML = evt.target.value;
-        console.log('InspectorComponent => onInnerHTMLCHange => ' + innerHTML);
+        console.log('InspectorComponent => onInnerHTMLChange => ' + innerHTML);
         let updatedElement = {...this.props.activeElement};
         updatedElement.innerHTML = innerHTML;
         this.props.updateElement(updatedElement);
@@ -267,7 +267,7 @@ class InspectorComponent extends Component {
                 <h3 className='component-title'>Properties</h3>
                 {element.type ? <div><label>Type:</label><br /><TypeDropdown onChange={this.onTypeChange} value={element.type} /></div> : null}
                 <h4>Attributes</h4>
-                {element.innerHTML ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
+                {element.innerHTML != null ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
                 {attributeArray}
 
                 <h4>Styles</h4>
