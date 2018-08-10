@@ -117,6 +117,7 @@ class InspectorComponent extends Component {
         this.updateElementStyle = this.updateElementStyle.bind(this);
         this.updateElementAttribute = this.updateElementAttribute.bind(this);
         this.onAddStyleButtonClicked = this.onAddStyleButtonClicked.bind(this);
+        this.onDeleteElementButtonClicked = this.onDeleteElementButtonClicked.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
@@ -214,13 +215,22 @@ class InspectorComponent extends Component {
         this.props.savePage(page);
     }
 
+    onDeleteElementButtonClicked() {
+        console.log('InspectorComponent => onDeleteElementButtonClicked');
+        let page = {...this.props.page};
+        let elementToDelete = {...this.props.activeElement};
+        this.props.deleteElement(elementToDelete);
+        // this.props.savePage(page);
+    }
+
     onAddStyleButtonClicked(evt, styles) {
         console.log('InspectorComponent => onAddStyleButtonClicked => ' + JSON.stringify(styles));
         let activeElement = {...this.props.activeElement};
+        let elementStyles = [...activeElement.styles] || [];
 
         for (let j = 0; j < styles.length; ++j) {
             let style = styles[j];
-            let index = activeElement.styles.findIndex(s => s.attribute == style);
+            let index = elementStyles.findIndex(s => s.attribute == style);
 
             // property doesn't exist on our element, so let's add it
             if (index == -1) {
@@ -241,7 +251,7 @@ class InspectorComponent extends Component {
         const element = this.props.activeElement;
         console.log('element => ' + JSON.stringify(element));
 
-        if (element.id == '') {
+        if (element == null || element.id == '') {
             // return just the title, don't show any editable attributes
             // probably a better way, but it works for now
             return <h3 className='component-title'>Properties</h3>
@@ -263,7 +273,7 @@ class InspectorComponent extends Component {
                 <AddStyleComponent onClick={this.onAddStyleButtonClicked} values={this.props.availableStyles} />
                 {styleArray}
 
-                {element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
+                {element.type ? <button onClick={this.onDeleteElementButtonClicked}>Delete</button> : null}
                 {element.type ? <button onClick={this.onSavePageButtonClicked}>Save Page</button> : null}
             </div>
         )

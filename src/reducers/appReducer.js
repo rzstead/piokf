@@ -168,7 +168,7 @@ export default function(state = initialState, action) {
                 var element = pageData.elements[j];
                 if (element.id == updatedElementData.id) {
                     pageData.elements[j] = updatedElementData;
-                    console.log('pageData element updated');
+                    console.log('pageData element updated: ' + JSON.stringify(updatedElementData));
                     break;
                 }
             }
@@ -195,9 +195,34 @@ export default function(state = initialState, action) {
                 renderableElements: renderableElements,
             }
         case ELEMENT_DELETED:
+            var elementToDelete = action.payload;
+            console.log('ELEMENT_DELETED => ' + JSON.stringify(elementToDelete));
+
+            // remove from page data
+            var pageData = {...state.pageData};
+            var pageDataIndex = pageData.elements.findIndex(e => e.id == elementToDelete.id);
+            
+            if (pageDataIndex != -1) {
+                console.log('pageDataIndex found and removed => ' + pageDataIndex);
+                pageData.elements.splice(pageDataIndex, 1);
+            }
+
+            // remove from renderable elements
+            var renderableElements = [...state.renderableElements];
+            var elementIndex = renderableElements.findIndex(e => e.props.element.id == elementToDelete.id);
+            if (elementIndex != -1) {
+                console.log('renderableElement index found and removed');
+                renderableElements.splice(elementIndex, 1);
+            }
+            console.log('pageData => ' + JSON.stringify(pageData));
+
+            // TODO somehow pageData is getting lost in multiple deletes... FIX!
+
             return {
                 ...state,
-                activeElement: null
+                activeElement: null,
+                renderableElements: renderableElements,
+                pageData: pageData
             }
         case ROUTE_CHANGED:
             return {
