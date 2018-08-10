@@ -224,10 +224,10 @@ export default function(state = initialState, action) {
         case CREATE_CHILD_PAGE_SUCCESS:
             console.log("CREATE_CHILD_PAGE_SUCCESS");
             var pageMetas = [...state.pageMetas];
-            var foundPage = pageMetas.find(page =>{
+            var foundPageIndex = pageMetas.findIndex(page =>{
                 return(page.id === action.payload.parentId);
             });
-            pageMetas[0].children.push({title: 'dummyTitle', id: "17"});
+            pageMetas[foundPageIndex].children.push(action.payload.json);
             return{
                 ...state,
                 pageMetas: pageMetas

@@ -106,7 +106,7 @@ function createPage(page) {
 
 function createChildPage(childTitle, parentId){
     return fetch(`${BASE_API}/addChildPage.php`, {
-        type: 'POST',
+        method: 'POST',
         body: JSON.stringify({parent_page_id: parentId, title: childTitle})
     }).then(res => res.json());
 }
