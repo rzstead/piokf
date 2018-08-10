@@ -10,6 +10,9 @@ import {
     SAVE_PAGE_REQUEST,
     SAVE_PAGE_SUCCESS,
     SAVE_PAGE_FAILURE,
+    CREATE_CHILD_PAGE_REQUEST,
+    CREATE_CHILD_PAGE_SUCCESS,
+    CREATE_CHILD_PAGE_FAILURE,
     AUTH_REQUEST,
     AUTH_SUCCESS,
     AUTH_FAILURE,
@@ -68,6 +71,7 @@ export default function(state = initialState, action) {
             }
         case PAGE_META_SUCCESS:
             console.log('PAGE_META_SUCCESS');
+            console.log(action.payload)
             return {
                 ...state,
                 isLoading: false,
