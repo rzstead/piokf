@@ -97,10 +97,10 @@ function savePage(page) {
     }).then(res => res.json());
 }
 
-function createPage(page) {
-    return fetch(`${BASE_API}/addPage.php`, {
-        type: 'POST',
-        body: JSON.stringify(page)
+function createPage(title) {
+    return fetch(`${BASE_API}/addParentPage.php`, {
+        method: 'POST',
+        body: JSON.stringify({title: title})
     }).then(res => res.json());
 }
 

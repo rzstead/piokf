@@ -200,11 +200,13 @@ export default function(state = initialState, action) {
                 routeName: action.payload
             }
         case AUTH_REQUEST:
+            console.log("AUTH_REQUEST");
             return {
                 ...state,
                 isLoading: true
             }
         case AUTH_SUCCESS:
+            console.log("AUTH_SUCCESS");
             //setRoute('editor');
             return {
                ...state,
@@ -259,7 +261,7 @@ export default function(state = initialState, action) {
             }
 
         case CREATE_PAGE_FAILURE:
-            console.log("CREATE_PAGE_FAILURE");
+            console.log("CREATE_PAGE_FAILURE: " + action.error);
             return {
                 ...state,
                 isLoading: false,

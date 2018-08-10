@@ -1,12 +1,14 @@
-async function authenticate(user, pass){
-    //fetch('http://neumontcsc270.dynu.net:2018/piokf-back/loadPages.php').then(res => res.json()).then(json => console.log('received from api: ' + JSON.stringify(json)));
+//import Base64 from 'base-64';
+function authenticate(user, pass){
+    let headers = new Headers();
+    headers.append('Authorization', 'Basic ' + user + ':' + pass);
+    fetch('http://neumontcsc270.dynu.net:2018/piokf-back/login.php', {
+        method: 'post',
+        headers: headers
+    })
+        .then(res => res.headers.then(headers => console.log('received from login: ' + JSON.stringify(headers))));
+}
 
-    return new Promise((resolve, reject) => {
-        let itWorked = true;
-        if (itWorked) {
-            resolve(pageMetas);
-        } else {
-            reject(Error("Something went wrong with the Page service!"));
-        }
-    });
+export var AuthService = {
+    authenticate: authenticate
 }

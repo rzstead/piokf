@@ -8,7 +8,8 @@ class LoginComponent extends Component {
         this.onLogin = this.onLogin.bind(this);
     }
 
-    onLogin(){
+    onLogin(evt){
+        evt.preventDefault();
         console.log('onLogin has been called!');
         let username = document.getElementById('usernameInput').value;
         let password = document.getElementById('passwordInput').value;

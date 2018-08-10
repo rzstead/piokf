@@ -18,6 +18,7 @@ import {
 } from './types';
 
 import { PageService } from '../services/PageService';
+import { AuthService } from '../services/AuthService';
 
 export const fetchPage = (id) => dispatch => {
     console.log('pageActions => fetchPage');
@@ -49,10 +50,10 @@ export const savePage = (page) => dispatch => {
         }));
 }
 
-export const createPage = (page) => dispatch => {
-    console.log('pageActions => addPage');
+export const createPage = (title) => dispatch => {
+    console.log('pageActions => addPage title:' + title);
     dispatch({ type: CREATE_PAGE_REQUEST });
-    PageService.createPage(page)
+    PageService.createPage(title)
         .then(json => dispatch({
             type: CREATE_PAGE_SUCCESS,
             payload: json
@@ -88,14 +89,18 @@ export const changeRoute = (route) => dispatch => {
 
 export const login = (user, pass) => dispatch => {
     console.log('logging in...');
-    dispatch({type: AUTH_SUCCESS});
+    dispatch({type: AUTH_REQUEST});
 
-    // AuthService.authenticate(user, pass)
-    //     .then(json => dispatch({
-    //         type: AUTH_SUCCESS
-    //     }))
-    //     .catch(err => dispatch({
-    //         type: AUTH_FAILURE,
-    //         error: err
-    //     }));
+    AuthService.authenticate(user, pass)
+        .then(headers => {
+            
+                dispatch({
+                    type: AUTH_SUCCESS
+                })
+            }
+        )
+        .catch(err => dispatch({
+            type: AUTH_FAILURE,
+            error: err
+        }));
 }

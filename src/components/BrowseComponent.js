@@ -4,7 +4,7 @@ import { fetchPage, createPage, createChildPage } from '../actions/pageActions';
 
 class PageListItem extends Component {
     render() {
-        let children;
+        let children = [];
         if(this.props.pageMeta.children){
             children = this.props.pageMeta.children.map(pageMeta => {
                 return <div className="page-tab page-child" style={{color: '#333'}}onClick={() => this.props.onClick(pageMeta)}>
