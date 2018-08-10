@@ -12,7 +12,7 @@ class AttributeTextField extends Component {
         return(
             <div className='attribute-field'>
                 <label className='attribute-field-name'>{name}</label><br />
-                <textarea className='attribute-field-value' style={{resize: this.props.resize}} value={value} onChange={(e) => {this.props.onChange(e, name)}} />
+                <textarea className='attribute-field-value' style={{resize: this.props.resize}} rows={1} value={value} onChange={(e) => {this.props.onChange(e, name)}} />
             </div>
         )
     }
@@ -30,6 +30,66 @@ class ColorField extends Component {
                 <div style={{flex: 4}} />
             </div>
         )
+    }
+}
+
+class AddStyleComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            selected: []
+        }
+        this.onAddStyleButtonClicked = this.onAddStyleButtonClicked.bind(this);
+    }
+
+    onCheckboxClicked(evt, style) {
+        console.log('InspectorComponent => onCheckBoxClicked => ' + style + ' => ' + evt.target.checked);
+
+        let isChecked = evt.target.checked;
+        let styleArray = this.state.selected;
+        let index = this.state.selected.findIndex((prop) => prop == style);
+
+        if (isChecked) {
+            if (index == -1) {
+                styleArray.push(style);
+            }
+        } else {
+            if (index != -1) {
+                styleArray.splice(index, 1);
+            }
+        }
+        this.setState({selected: styleArray});
+    }
+
+    onAddStyleButtonClicked(evt) {
+        let selected = this.state.selected;
+        console.log('AddStyleComponent => onAddStyleButtonClicked => ' + JSON.stringify(selected));
+        this.props.onClick(evt, selected);
+    }
+
+    render() {
+        let radioButtons = [];
+        for (let j = 0; j < this.props.values.length; ++j) {
+            let value = this.props.values[j];
+            radioButtons.push(
+                <div className='style-button' style={{display: 'block'}}>
+                    <label style={{padding: 4}}>
+                        <input type='checkbox' value={value} onClick={(e) => {this.onCheckboxClicked(e, value)}}/>
+                        {value}
+                    </label>
+                    <br />
+                </div>
+            )
+        }
+
+        return(
+            <div style={{overflowY: 'auto', height: 175, border: '1px solid #222', padding: 8, margin: 8, display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
+                <div style={{position: 'sticky', top: 0, backgroundColor: 'white'}}>
+                    <button onClick={this.onAddStyleButtonClicked}>Add Style</button>
+                </div>
+                {radioButtons}
+            </div>
+        );
     }
 }
 
@@ -56,6 +116,7 @@ class InspectorComponent extends Component {
         this.onStyleChange = this.onStyleChange.bind(this);
         this.updateElementStyle = this.updateElementStyle.bind(this);
         this.updateElementAttribute = this.updateElementAttribute.bind(this);
+        this.onAddStyleButtonClicked = this.onAddStyleButtonClicked.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
@@ -153,6 +214,25 @@ class InspectorComponent extends Component {
         this.props.savePage(page);
     }
 
+    onAddStyleButtonClicked(evt, styles) {
+        console.log('InspectorComponent => onAddStyleButtonClicked => ' + JSON.stringify(styles));
+        let activeElement = {...this.props.activeElement};
+
+        for (let j = 0; j < styles.length; ++j) {
+            let style = styles[j];
+            let index = activeElement.styles.findIndex(s => s.attribute == style);
+
+            // property doesn't exist on our element, so let's add it
+            if (index == -1) {
+                activeElement.styles.push({
+                    attribute: style,
+                    value: ''
+                });
+            }
+        }
+        this.props.updateElement(activeElement);
+    }
+
     onColorChange(evt) {
         console.log('InspectorComponent => onColorChange => ' + evt.target.value);
     }
@@ -180,6 +260,7 @@ class InspectorComponent extends Component {
                 {attributeArray}
 
                 <h4>Styles</h4>
+                <AddStyleComponent onClick={this.onAddStyleButtonClicked} values={this.props.availableStyles} />
                 {styleArray}
 
                 {element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
@@ -190,7 +271,8 @@ class InspectorComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    page: state.app.pageData
+    page: state.app.pageData,
+    availableStyles: state.app.availableStyles
 });
 
 const mapDispatchToProps = dispatch => {

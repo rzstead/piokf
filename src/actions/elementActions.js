@@ -1,4 +1,13 @@
-import { ELEMENT_SELECTED, ELEMENT_DESELECTED, ELEMENT_UPDATED, ELEMENT_CREATED, ELEMENT_CREATE_FROM_TYPE, ELEMENT_ADDED, RENDERABLE_ELEMENTS_CREATED, ELEMENT_DELETED } from './types';
+import {
+    ELEMENT_SELECTED,
+    ELEMENT_DESELECTED,
+    ELEMENT_UPDATED,
+    ELEMENT_CREATED,
+    ELEMENT_CREATE_FROM_TYPE,
+    ELEMENT_ADDED,
+    RENDERABLE_ELEMENTS_CREATED,
+    ELEMENT_DELETED,
+} from './types';
 
 export const selectElement = (element) => dispatch => {
     console.log('elementActions => selectElement => ' + JSON.stringify(element));
