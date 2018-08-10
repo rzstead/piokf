@@ -4,6 +4,7 @@
 
 .material-icons{
   margin: 5px;
+  text-align: center;
 }
 
 .ribbon{
@@ -93,6 +94,7 @@
 .page-child{
   padding-left: 35px;
   margin: 0px;
+  font-size: .9em;
 }
 
 .page-child p{
@@ -101,7 +103,7 @@
 }
 
 .element-insert{
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.404);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
   width: 35px;
   height: 35px;
   margin-left: auto;
@@ -262,4 +264,24 @@ nav a:hover{
 .attribute-field-value-color {
   flex: 2;
 
+}
+
+.add-sub-page{
+  padding: 0;
+  margin: 0px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.add-parent-page{
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2);
+  width: 35px;
+  height: 35px;
+  margin: auto;
+  margin-top: 25px;
+  text-align: center;
+  border-radius: 100%;
+  background-color: rgb(85, 199, 81);
+  color: white;
+  cursor: pointer;
 }
