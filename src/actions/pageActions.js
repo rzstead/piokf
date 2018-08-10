@@ -11,7 +11,8 @@ import {
     AUTH_REQUEST,
     AUTH_SUCCESS,
     AUTH_FAILURE,
-    ROUTE_CHANGED
+    ROUTE_CHANGED,
+    CREATE_CHILD_PAGE_REQUEST
 } from './types';
 
 import { PageService } from '../services/PageService';
@@ -53,6 +54,23 @@ export const createPage = (page) => dispatch => {
         .then(json => dispatch({
             type: CREATE_PAGE_SUCCESS,
             payload: json
+        }))
+        .catch(err => dispatch({
+            type: CREATE_PAGE_FAILURE,
+            error: err
+        }));
+}
+
+export const createChildPage = (childTitle, parentId) => dispatch => {
+    console.log('pageActions => createChildPage');
+    dispatch({ type: CREATE_CHILD_PAGE_REQUEST });
+    PageService.createChildPage(childTitle, parentId)
+        .then(json => dispatch({
+            type: CREATE_PAGE_SUCCESS,
+            payload: {
+                json: json,
+                parentId: parentId
+            }
         }))
         .catch(err => dispatch({
             type: CREATE_PAGE_FAILURE,

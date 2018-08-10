@@ -104,6 +104,13 @@ function createPage(page) {
     }).then(res => res.json());
 }
 
+function createChildPage(childTitle, parentId){
+    return fetch(`${BASE_API}/addChildPage.php`, {
+        type: 'POST',
+        body: JSON.stringify({parent_page_id: parentId, title: childTitle})
+    }).then(res => res.json());
+}
+
 async function updatePage(page) {
 
 }
@@ -116,5 +123,6 @@ export var PageService = {
     getPage: getPage,
     getPageMetas: getPageMetas,
     savePage: savePage,
-    createPage: createPage
+    createPage: createPage,
+    createChildPage: createChildPage
 }

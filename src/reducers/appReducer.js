@@ -214,7 +214,31 @@ export default function(state = initialState, action) {
                ...state,
                isLoading: false,
                isAuthenticated: false 
-            }    
+            }   
+        case CREATE_CHILD_PAGE_REQUEST:
+            console.log("CREATE_CHILD_PAGE_REQUEST");
+            return{
+                ...state,
+                isLoading: true
+            }
+        case CREATE_CHILD_PAGE_SUCCESS:
+            console.log("CREATE_CHILD_PAGE_SUCCESS");
+            var pageMetas = [...state.pageMetas];
+            var foundPage = pageMetas.find(page =>{
+                return(page.id === action.payload.parentId);
+            });
+            pageMetas[0].children.push({title: 'dummyTitle', id: "17"});
+            return{
+                ...state,
+                pageMetas: pageMetas
+            }
+        case CREATE_CHILD_PAGE_FAILURE:
+        console.log("CREATE_CHILD_PAGE_FAILURE: " + action.error);
+            return {
+                ...state,
+                isLoading: false,
+                error: action.error
+            }
         default:
             return state;
     }
