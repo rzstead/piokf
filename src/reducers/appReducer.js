@@ -128,7 +128,7 @@ export default function(state = initialState, action) {
             console.log('ELEMENT_SELECTED => ' + JSON.stringify(action.payload));
             return {
                 ...state,
-                activeElement: action.payload
+                activeElement: action.payload,
             }
         case ELEMENT_ADDED:
             var elementType = action.payload;
@@ -256,7 +256,8 @@ export default function(state = initialState, action) {
             pageMetas[foundPageIndex].children.push(action.payload.json);
             return {
                 ...state,
-                pageMetas: pageMetas
+                pageMetas: pageMetas,
+                isLoading: false
             }
         case CREATE_CHILD_PAGE_FAILURE:
             console.log("CREATE_CHILD_PAGE_FAILURE: " + action.error);
@@ -269,7 +270,7 @@ export default function(state = initialState, action) {
             console.log("CREATE_PAGE_REQUEST");
             return {
                 ...state,
-                isLoading: false
+                isLoading: true
             }
         case CREATE_PAGE_SUCCESS:
             console.log("CREATE_PAGE_SUCCESS");
@@ -303,13 +304,15 @@ export default function(state = initialState, action) {
             pageMetas.splice(removeIndex, 1);
                 return{
                     ...state,
-                    pageMetas: pageMetas
+                    pageMetas: pageMetas,
+                    isLoading: false
                 }
         case DELETE_PAGE_FAILURE:
         console.log("DELETE_PAGE_FAILURE: " + action.error);
             return{
                 ...state,
-                error: action.error
+                error: action.error,
+                isLoading: false
             }
         default:
             return state;
