@@ -21,9 +21,11 @@ function savePage(page) {
 }
 
 function createPage(title) {
+    var headers = new Headers();
     return fetch(`${BASE_API}/addParentPage.php`, {
         method: 'POST',
-        body: JSON.stringify({title: title})
+        body: JSON.stringify({title: title}),
+        credentials: 'include'
     }).then(res => res.json());
 }
 

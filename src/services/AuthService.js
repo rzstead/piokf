@@ -1,12 +1,15 @@
-//import Base64 from 'base-64';
-function authenticate(user, pass){
-    let headers = new Headers();
-    headers.append('Authorization', 'Basic ' + user + ':' + pass);
-    return fetch('http://neumontcsc270.dynu.net:2018/piokf-back/login.php', {
-        method: 'post',
-        headers: headers
-    })
-        .then(res => res.headers.then(headers => console.log('received from login: ' + JSON.stringify(headers))));
+import Base64 from 'base-64';
+const BASE_API = 'http://neumontcsc270.dynu.net:2018/piokf-back';
+
+function authenticate(username, password){
+    return fetch(`${BASE_API}/login.php`, {
+        method: 'POST',
+        body: JSON.stringify({username: username, password: password})
+    }).then(res => res.json())
+    .then(json => {
+        console.log("AUTH RESPONSE: " + JSON.stringify(json));
+        }
+    );
 }
 
 export var AuthService = {
