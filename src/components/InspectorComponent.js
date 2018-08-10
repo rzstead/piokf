@@ -33,38 +33,38 @@ class ColorField extends Component {
     }
 }
 
-class AddStyleComponent extends Component {
+class PropAttributesComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selected: []
         }
-        this.onAddStyleButtonClicked = this.onAddStyleButtonClicked.bind(this);
+        this.onAddAttributesButtonClicked = this.onAddAttributesButtonClicked.bind(this);
     }
 
-    onCheckboxClicked(evt, style) {
-        console.log('InspectorComponent => onCheckBoxClicked => ' + style + ' => ' + evt.target.checked);
+    onAddAttributesButtonClicked(evt) {
+        let selected = this.state.selected;
+        // console.log('PropAttributesComponent => onAddAttributesButtonClicked => ' + JSON.stringify(selected));
+        // let selected = ['href', 'src'];
+        this.props.onClick(evt, selected);
+    }
 
+    onCheckboxClicked(evt, prop) {
         let isChecked = evt.target.checked;
-        let styleArray = this.state.selected;
-        let index = this.state.selected.findIndex((prop) => prop == style);
+        console.log('PropAttributesComponent => onCheckBoxClicked => ' + prop + ' => ' + isChecked);
+        let attributeArray = this.state.selected;
+        let index = attributeArray.findIndex((attribute) => attribute == prop);
 
         if (isChecked) {
             if (index == -1) {
-                styleArray.push(style);
+                attributeArray.push(prop);
             }
         } else {
             if (index != -1) {
-                styleArray.splice(index, 1);
+                attributeArray.splice(index, 1);
             }
         }
-        this.setState({selected: styleArray});
-    }
-
-    onAddStyleButtonClicked(evt) {
-        let selected = this.state.selected;
-        console.log('AddStyleComponent => onAddStyleButtonClicked => ' + JSON.stringify(selected));
-        this.props.onClick(evt, selected);
+        this.setState({selected: attributeArray});
     }
 
     render() {
@@ -74,22 +74,21 @@ class AddStyleComponent extends Component {
             radioButtons.push(
                 <div className='style-button' style={{display: 'block'}}>
                     <label style={{padding: 4}}>
-                        <input type='checkbox' value={value} onClick={(e) => {this.onCheckboxClicked(e, value)}}/>
+                        <input type='checkbox' value={value} onClick={(e) => {this.onCheckboxClicked(e, value)}} />
                         {value}
                     </label>
                     <br />
                 </div>
             )
         }
-
         return(
             <div style={{overflowY: 'auto', height: 175, border: '1px solid #222', padding: 8, margin: 8, display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
                 <div style={{position: 'sticky', top: 0, backgroundColor: 'white'}}>
-                    <button onClick={this.onAddStyleButtonClicked}>Add Style</button>
+                    <button onClick={this.onAddAttributesButtonClicked}>{this.props.title}</button>
                 </div>
                 {radioButtons}
             </div>
-        );
+        )
     }
 }
 
@@ -117,6 +116,7 @@ class InspectorComponent extends Component {
         this.updateElementStyle = this.updateElementStyle.bind(this);
         this.updateElementAttribute = this.updateElementAttribute.bind(this);
         this.onAddStyleButtonClicked = this.onAddStyleButtonClicked.bind(this);
+        this.onAddAttributesButtonClicked = this.onAddAttributesButtonClicked.bind(this);
         this.onDeleteElementButtonClicked = this.onDeleteElementButtonClicked.bind(this);
     }
 
@@ -223,6 +223,27 @@ class InspectorComponent extends Component {
         // this.props.savePage(page);
     }
 
+    onAddAttributesButtonClicked(evt, attributes) {
+        console.log('InspectorComponent => onAttributesButtonClicked => ' + JSON.stringify(attributes));
+        let activeElement = {...this.props.activeElement};
+        let elementAttributes = [...activeElement.attributes];
+
+        for (let j = 0; j < attributes.length; ++j) {
+            let attribute = attributes[j];
+            let index = elementAttributes.findIndex(s => s.name == attribute);
+
+            if (index == -1) {
+                elementAttributes.push({
+                    name: attribute,
+                    value: ""
+                })
+            }
+        }
+        console.log('elementAttributes => ' + JSON.stringify(elementAttributes));
+        activeElement.attributes = elementAttributes;
+        this.props.updateElement(activeElement);
+    }
+
     onAddStyleButtonClicked(evt, styles) {
         console.log('InspectorComponent => onAddStyleButtonClicked => ' + JSON.stringify(styles));
         let activeElement = {...this.props.activeElement};
@@ -268,10 +289,11 @@ class InspectorComponent extends Component {
                 {element.type ? <div><label>Type:</label><br /><TypeDropdown onChange={this.onTypeChange} value={element.type} /></div> : null}
                 <h4>Attributes</h4>
                 {element.innerHTML != null ? <AttributeTextField name='innerHTML' value={element.innerHTML} onChange={this.onInnerHTMLChange}/> : ''}
+                <PropAttributesComponent onClick={this.onAddAttributesButtonClicked} values={this.props.availableAttributes} title='Add Attributes' />
                 {attributeArray}
 
                 <h4>Styles</h4>
-                <AddStyleComponent onClick={this.onAddStyleButtonClicked} values={this.props.availableStyles} />
+                <PropAttributesComponent onClick={this.onAddStyleButtonClicked} title='Add Styles' values={this.props.availableStyles} />
                 {styleArray}
 
                 {element.type ? <button onClick={this.onDeleteElementButtonClicked}>Delete</button> : null}
@@ -283,7 +305,8 @@ class InspectorComponent extends Component {
 
 const mapStateToProps = state => ({
     page: state.app.pageData,
-    availableStyles: state.app.availableStyles
+    availableStyles: state.app.availableStyles,
+    availableAttributes: ['alt', 'href']
 });
 
 const mapDispatchToProps = dispatch => {

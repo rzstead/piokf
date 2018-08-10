@@ -28,7 +28,8 @@ import {
 
 import { ElementHelper } from '../util/ElementHelper';
 
-const supportedStyles = ['backgroundColor', 'border', 'borderRadius', 'color', 'fontFamily', 'margin', 'padding'];
+const supportedStyles = ['backgroundColor', 'border', 'borderRadius', 'color', 'fontFamily', 'fontStyle', 'margin', 'padding'];
+const supportedAttributes = ['alt', 'href'];
 
 const initialState = {
     isLoading: true,
@@ -50,6 +51,7 @@ const initialState = {
         innerHTML: null
     },
     availableStyles: supportedStyles,
+    supportedAttributes: supportedAttributes,
     routeName: "Viewer",
     isAuthenticated: false,
 }
@@ -148,7 +150,6 @@ export default function(state = initialState, action) {
             }
         case ELEMENT_UPDATED:
             var updatedElementData = action.payload;
-
             var pageData = {...state.pageData};
 
             // find the element in our pageData that matches our updatedElement and replace it
