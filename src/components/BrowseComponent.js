@@ -13,8 +13,8 @@ class PageListItem extends Component {
             });
         }
         children.push(
-             <div className='page-tab add-sub-page'>
-                <i onClick={() => this.props.onSubPageAdd(this.props.pageMeta.id)} className="material-icons">add</i>
+             <div onClick={() => this.props.onSubPageAdd(this.props.pageMeta.id)} className='page-tab add-sub-page'>
+                <i className="material-icons">add</i>
              </div>
         );
         return(
