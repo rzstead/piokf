@@ -46,22 +46,7 @@ const initialState = {
         innerHTML: null
     },
     routeName: "Viewer",
-    isAuthenticated: true,
-    navData: {
-        brand: "Sweetums",
-        links: [
-            {name: 'OtherPage', id: '2', children: [
-                {name: 'OtherPage Child 1', id: 3},
-                {name: 'OtherPage Child 2', id: 1}
-            ]},
-            {name: 'SecondOtherPage', id: '3'}
-        ]
-    }
-
-    //this is test data for the nav links
-    //have a separate nav component that always sits on top of viewer component
-    //elements are now wrapped based on authentication status
-    //other things I can't recall
+    isAuthenticated: false,
 }
 
 export default function(state = initialState, action) {
@@ -207,7 +192,6 @@ export default function(state = initialState, action) {
             }
         case AUTH_SUCCESS:
             console.log("AUTH_SUCCESS");
-            //setRoute('editor');
             return {
                ...state,
                isLoading: false,

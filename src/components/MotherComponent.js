@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPageMetas } from '../actions/metaActions';
 import { addElement } from '../actions/elementActions';
+import { changeRoute } from '../actions/pageActions';
 import BrowseComponent from '../components/BrowseComponent';
 import ViewerComponent from '../components/ViewerComponent';
 import InspectorComponent from '../components/InspectorComponent';
@@ -18,7 +19,12 @@ class MotherComponent extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchPageMetas();
+        console.log("IS AUTHENTICATED: " + this.props.isAuthenticated);
+        if(this.props.isAuthenticated){
+            this.props.fetchPageMetas();
+        }else{
+            this.props.changeRoute('login');
+        }
     }
 
     onInsertElementClicked(evt) {
@@ -67,7 +73,8 @@ const mapStateToProps = state => ({
     pageMetas: state.app.pageMetas,
     pageData: state.app.pageData,
     renderableElements: state.app.renderableElements,
-    activeElement: state.app.activeElement
+    activeElement: state.app.activeElement,
+    isAuthenticated: state.app.isAuthenticated
 });
 
 const mapDispatchToProps = dispatch => {
@@ -77,6 +84,9 @@ const mapDispatchToProps = dispatch => {
         },
         addElement: (type) => {
             dispatch(addElement(type));
+        },
+        changeRoute: (route) => {
+            dispatch(changeRoute(route))
         }
     }
 };
