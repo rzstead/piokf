@@ -148,6 +148,9 @@ class InspectorComponent extends Component {
 
     onSavePageButtonClicked() {
         console.log('InspectorComponent => onSavePageButtonClicked => ' + JSON.stringify(this.props.page));
+        let page = {...this.props.page};
+        console.log('SAVE_PAGE_DATA => ' + JSON.stringify(page));
+        this.props.savePage(page);
     }
 
     onColorChange(evt) {
