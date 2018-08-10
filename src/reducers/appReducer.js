@@ -28,12 +28,16 @@ import {
 
 import { ElementHelper } from '../util/ElementHelper';
 
+const supportedStyles = ['backgroundColor', 'border', 'borderRadius', 'color', 'fontFamily', 'margin', 'padding'];
+
 const initialState = {
     isLoading: true,
     isEditing: false,
     error: null,
     pageMetas: [],
-    pageData: {},
+    pageData: {
+        elements: []
+    },
     renderableElements: [],
     activeElement: {
         id: '',
@@ -45,6 +49,7 @@ const initialState = {
         },
         innerHTML: null
     },
+    availableStyles: supportedStyles,
     routeName: "Viewer",
     isAuthenticated: true,
     navData: {

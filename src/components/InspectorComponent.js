@@ -33,6 +33,31 @@ class ColorField extends Component {
     }
 }
 
+class RadioChooserComponent extends Component {
+    render() {
+        let radioButtons = [];
+
+        for (let j = 0; j < this.props.values.length; ++j) {
+            let value = this.props.values[j];
+            radioButtons.push(
+                <div className='style-button'>
+                    <label style={{backgroundColor: 'red'}}>
+                        <input type='checkbox' value={value}/>
+                        {value}
+                    </label>
+                    <br />
+                </div>
+            )
+        }
+
+        return(
+            <div style={{overflowY: 'auto', height: 100, border: '1px solid red'}}>
+                {radioButtons}
+            </div>
+        );
+    }
+}
+
 class TypeDropdown extends Component {
     render() {
         return (
@@ -56,6 +81,7 @@ class InspectorComponent extends Component {
         this.onStyleChange = this.onStyleChange.bind(this);
         this.updateElementStyle = this.updateElementStyle.bind(this);
         this.updateElementAttribute = this.updateElementAttribute.bind(this);
+        this.onAddStyleButtonClicked = this.onAddStyleButtonClicked.bind(this);
     }
 
     onAttributeChange(evt, attribute) {
@@ -153,6 +179,22 @@ class InspectorComponent extends Component {
         this.props.savePage(page);
     }
 
+    onAddStyleButtonClicked() {
+        console.log('InspectorComponent => onAddStyleButtonClicked');
+        let styleProp = prompt('Enter the name of the property to add');
+
+        let index = this.props.availableStyles.findIndex((prop) => prop == styleProp);
+        if (index != -1) {
+            console.log('should be adding prop => ' + styleProp);
+            let activeElement = {...this.props.activeElement};
+            activeElement.styles.push({
+                attribute: styleProp,
+                value: ''
+            });
+            this.props.updateElement(activeElement);
+        }
+    }
+
     onColorChange(evt) {
         console.log('InspectorComponent => onColorChange => ' + evt.target.value);
     }
@@ -180,6 +222,8 @@ class InspectorComponent extends Component {
                 {attributeArray}
 
                 <h4>Styles</h4>
+                <button onClick={this.onAddStyleButtonClicked}>Add Style</button>
+                <RadioChooserComponent values={this.props.availableStyles} />
                 {styleArray}
 
                 {element.type ? <button onClick={this.props.deleteElement}>Delete</button> : null}
@@ -190,7 +234,8 @@ class InspectorComponent extends Component {
 }
 
 const mapStateToProps = state => ({
-    page: state.app.pageData
+    page: state.app.pageData,
+    availableStyles: state.app.availableStyles
 });
 
 const mapDispatchToProps = dispatch => {
