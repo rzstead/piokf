@@ -129,16 +129,22 @@ export default function(state = initialState, action) {
                 activeElement: action.payload
             }
         case ELEMENT_ADDED:
-            var type = action.payload;
-            var placeholder = ElementHelper.createPlaceholder(type);
-            console.log('created placeholder => ' + JSON.stringify(placeholder));
-            var element = ElementHelper.createWrappedElement(type, placeholder);
-            var elements = [...state.renderableElements];
-            elements.push(element);
+            var elementType = action.payload;
+            var elementData = ElementHelper.createPlaceholder(elementType);
+            elementData.id = state.pageData.elements.length;
+            console.log('ELEMENT_ADDED => TYPE => ' + elementType + ' => DATA => ' + JSON.stringify(elementData));
+
+            var pageData = {...state.pageData};
+            pageData.elements.push(elementData);
+
+            var renderableElements = [...state.renderableElements];
+            var renderableElement = ElementHelper.createWrappedElement(elementType, elementData);
+            renderableElements.push(renderableElement);
 
             return {
                 ...state,
-                renderableElements: elements
+                pageData: pageData,
+                renderableElements: renderableElements
             }
         case ELEMENT_UPDATED:
             console.log('ELEMENT_UPDATED');
