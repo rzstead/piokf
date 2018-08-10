@@ -13,6 +13,9 @@ import {
     CREATE_CHILD_PAGE_REQUEST,
     CREATE_CHILD_PAGE_SUCCESS,
     CREATE_CHILD_PAGE_FAILURE,
+    CREATE_PAGE_REQUEST,
+    CREATE_PAGE_SUCCESS,
+    CREATE_PAGE_FAILURE,
     AUTH_REQUEST,
     AUTH_SUCCESS,
     AUTH_FAILURE,
@@ -192,32 +195,32 @@ export default function(state = initialState, action) {
                 activeElement: null
             }
         case ROUTE_CHANGED:
-            return{
+            return {
                 ...state,
                 routeName: action.payload
             }
         case AUTH_REQUEST:
-            return{
+            return {
                 ...state,
                 isLoading: true
             }
         case AUTH_SUCCESS:
             //setRoute('editor');
-            return{
+            return {
                ...state,
                isLoading: false,
                isAuthenticated: true,
                routeName: 'editor'
             }
         case AUTH_FAILURE:
-            return{
+            return {
                ...state,
                isLoading: false,
                isAuthenticated: false 
             }   
         case CREATE_CHILD_PAGE_REQUEST:
             console.log("CREATE_CHILD_PAGE_REQUEST");
-            return{
+            return {
                 ...state,
                 isLoading: true
             }
@@ -228,12 +231,35 @@ export default function(state = initialState, action) {
                 return(page.id === action.payload.parentId);
             });
             pageMetas[foundPageIndex].children.push(action.payload.json);
-            return{
+            return {
                 ...state,
                 pageMetas: pageMetas
             }
         case CREATE_CHILD_PAGE_FAILURE:
-        console.log("CREATE_CHILD_PAGE_FAILURE: " + action.error);
+            console.log("CREATE_CHILD_PAGE_FAILURE: " + action.error);
+            return {
+                ...state,
+                isLoading: false,
+                error: action.error
+            }
+        case CREATE_PAGE_REQUEST:
+            console.log("CREATE_PAGE_REQUEST");
+            return {
+                ...state,
+                isLoading: false
+            }
+        case CREATE_PAGE_SUCCESS:
+            console.log("CREATE_PAGE_SUCCESS");
+            var pageMetas = [...state.pageMetas];
+            pageMetas.push(action.payload);
+            return {
+                ...state,
+                isLoading: false,
+                pageMetas: pageMetas
+            }
+
+        case CREATE_PAGE_FAILURE:
+            console.log("CREATE_PAGE_FAILURE");
             return {
                 ...state,
                 isLoading: false,

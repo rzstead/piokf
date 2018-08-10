@@ -13,8 +13,8 @@ class PageListItem extends Component {
             });
         }
         children.push(
-             <div className='page-tab add-sub-page'>
-                <i onClick={() => this.props.onSubPageAdd(this.props.pageMeta.id)} className="material-icons">add</i>
+             <div onClick={() => this.props.onSubPageAdd(this.props.pageMeta.id)} className='page-tab add-sub-page'>
+                <i className="material-icons">add</i>
              </div>
         );
         return(
@@ -51,13 +51,11 @@ class BrowseComponent extends Component {
 
     onAddPageButtonClicked() {
         console.log('BrowseComponent => onAddPageButtonClicked');
-        // placeholder for now... Waiting for API to be fixed
-        let page = {
-            title: 'Some fun page',
-            parent_page_id: null
-        };
-        console.log('addPage => TODO call API when it is implemented!');
-        // this.props.createPage(page);
+        let title = prompt("Enter a new page name.");
+        if(title){
+            console.log('addPage => TODO call API when it is implemented!');
+            this.props.createPage(title);
+        }
     }
 
     render() {
@@ -84,8 +82,8 @@ const mapDispatchToProps = dispatch => {
         fetchPage: (id) => {
             dispatch(fetchPage(id));
         },
-        createPage: (page) => {
-            dispatch(createPage(page));
+        createPage: (title) => {
+            dispatch(createPage(title));
         },
         createChildPage: (childTitle, parentId) => {
             dispatch(createChildPage(childTitle, parentId))
