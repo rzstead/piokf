@@ -26,13 +26,13 @@ import {
     ELEMENT_DELETED,
     DELETE_PAGE_REQUEST,
     DELETE_PAGE_FAILURE,
-    DELETE_PAGE_SUCCESS 
+    DELETE_PAGE_SUCCESS
 } from '../actions/types';
 
 import { ElementHelper } from '../util/ElementHelper';
 
 const supportedStyles = ['backgroundColor', 'border', 'borderRadius', 'color', 'fontFamily', 'fontStyle', 'margin', 'padding'];
-const supportedAttributes = ['alt', 'href'];
+const supportedAttributes = ['alt', 'href', 'src'];
 
 const initialState = {
     isLoading: true,
@@ -54,7 +54,7 @@ const initialState = {
         innerHTML: null
     },
     availableStyles: supportedStyles,
-    supportedAttributes: supportedAttributes,
+    availableAttributes: supportedAttributes,
     routeName: "Viewer",
     isAuthenticated: false,
 }
