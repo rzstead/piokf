@@ -123,7 +123,7 @@ export default function(state = initialState, action) {
                 error: action.error
             }
         case ELEMENT_SELECTED:
-            console.log('ELEMENT_SELECTED');
+            console.log('ELEMENT_SELECTED => ' + JSON.stringify(action.payload));
             return {
                 ...state,
                 activeElement: action.payload
@@ -131,7 +131,8 @@ export default function(state = initialState, action) {
         case ELEMENT_ADDED:
             var elementType = action.payload;
             var elementData = ElementHelper.createPlaceholder(elementType);
-            elementData.id = state.pageData.elements.length;
+            // for some reason, an element w/ id of 0 fails to show up in the InspectorComponent
+            elementData.id = Math.max(1, state.pageData.elements.length);
             console.log('ELEMENT_ADDED => TYPE => ' + elementType + ' => DATA => ' + JSON.stringify(elementData));
 
             var pageData = {...state.pageData};
@@ -140,6 +141,8 @@ export default function(state = initialState, action) {
             var renderableElements = [...state.renderableElements];
             var renderableElement = ElementHelper.createWrappedElement(elementType, elementData);
             renderableElements.push(renderableElement);
+
+            console.log('PAGE_DATA_IS_NOW => ' + JSON.stringify(pageData));
 
             return {
                 ...state,
