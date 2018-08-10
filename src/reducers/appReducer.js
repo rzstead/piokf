@@ -192,7 +192,7 @@ export default function(state = initialState, action) {
                 ...state,
                 activeElement: updatedElementData,
                 pageData: pageData,
-                renderableElements: renderableElements
+                renderableElements: renderableElements,
             }
         case ELEMENT_DELETED:
             return {
