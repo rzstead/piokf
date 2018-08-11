@@ -114,30 +114,13 @@ function createElements(pageData, isWrapped) {
 // find the correct style object in the styleArray that has the given type for 'attribute'
 // returns -1 if not found
 function findStyleAttributeIndex(attributeType, styleArray) {
-    let index = -1;
-
-    for (let j = 0; j < styleArray.length; ++j) {
-        let style = styleArray[j];
-        if (style.attribute == attributeType) {
-            index = j;
-            break;
-        }
-    }
-    return index;
+    return styleArray.findIndex(s => s.attribute == attributeType);
 }
 
 // find the correct attribute in the attributeArray
+// returns -1 if not found
 function findDataAttributeIndex(attributeType, attributeArray) {
-    let index = -1;
-
-    for (let j = 0; j < attributeArray.length; ++j) {
-        let attribute = attributeArray[j];
-        if (attribute.name == attributeType) {
-            index = j;
-            break;
-        }
-    }
-    return index;
+    return attributeArray.findIndex(a => a.name == attributeType);
 }
 
 // extract the {'attribute': 'value'} styles from element into
