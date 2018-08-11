@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { updateElement, deleteElement } from '../actions/elementActions';
 import { savePage } from '../actions/pageActions';
+import { getSupportedElementTypes } from '../services/ElementService';
 import { ElementHelper } from '../util/ElementHelper';
 
 // textfield for editing attributes of an element
@@ -44,8 +45,7 @@ class PropAttributesComponent extends Component {
 
     onAddAttributesButtonClicked(evt) {
         let selected = this.state.selected;
-        // console.log('PropAttributesComponent => onAddAttributesButtonClicked => ' + JSON.stringify(selected));
-        // let selected = ['href', 'src'];
+        console.log('PropAttributesComponent => onAddAttributesButtonClicked => ' + JSON.stringify(selected));
         this.props.onClick(evt, selected);
     }
 
@@ -93,14 +93,15 @@ class PropAttributesComponent extends Component {
 }
 
 class TypeDropdown extends Component {
+    getOptionsList() {
+        return getSupportedElementTypes()
+            .map((type) => <option value={type.name} selected={this.props.value == type.name}>{type.displayName}</option>)
+    }
+
     render() {
         return (
             <select name='type' style={{fontSize: 18, border: '1px solid white'}} onChange={this.props.onChange}>
-                {/* TODO this could be generated dynamically w/ a service, but time is short for now */}
-                <option value='a' selected={this.props.value == 'a'}>Link</option>
-                <option value='img' selected={this.props.value == 'img'}>Image</option>
-                <option value='h1' selected={this.props.value == 'h1'}>Header (H1)</option>
-                <option value='p' selected={this.props.value == 'p'}>Paragraph</option>
+                {this.getOptionsList()}
             </select>
         )
     }
