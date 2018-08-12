@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchPageMetas } from '../actions/metaActions';
 import { addElement } from '../actions/elementActions';
-import { changeRoute } from '../actions/pageActions';
+import { changeRoute, setAuthenticated } from '../actions/pageActions';
 import BrowseComponent from '../components/BrowseComponent';
 import ViewerComponent from '../components/ViewerComponent';
 import InspectorComponent from '../components/InspectorComponent';
@@ -10,7 +10,6 @@ import CreateRibbonComponent from '../components/CreateRibbonComponent';
 import ElementInsertComponent from '../components/ElementInsertComponent';
 import NavComponent from '../components/NavComponent';
 import Cookies from 'js-cookie';
-import { AUTH_SUCCESS } from '../actions/types';
 
 
 class MotherComponent extends Component {
@@ -23,7 +22,7 @@ class MotherComponent extends Component {
     componentDidMount() {
         console.log("IS AUTHENTICATED: " + this.props.isAuthenticated);
         if(this.props.isAuthenticated || Cookies.get('Authorization')){
-            dispatch({type: AUTH_SUCCESS});
+            this.props.setAuthenticated();
             this.props.fetchPageMetas();
         }else{
             this.props.changeRoute('login');
@@ -90,6 +89,9 @@ const mapDispatchToProps = dispatch => {
         },
         changeRoute: (route) => {
             dispatch(changeRoute(route))
+        },
+        setAuthenticated: () => {
+            dispatch(setAuthenticated())
         }
     }
 };

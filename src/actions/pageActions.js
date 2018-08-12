@@ -132,3 +132,7 @@ export const login = (user, pass) => dispatch => {
             error: err
         }));
 }
+
+export const setAuthenticated = () => dispatch => {
+    dispatch({type: AUTH_SUCCESS});
+}
