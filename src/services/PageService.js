@@ -1,3 +1,5 @@
+import Cookies from 'js-cookie';
+
 const BASE_API = 'http://neumontcsc270.dynu.net:2018/piokf-back';
 
 function getPage(id) {
