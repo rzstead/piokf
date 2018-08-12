@@ -16,6 +16,9 @@ function savePage(page) {
     console.log('PageService => savePage');
     return fetch(`${BASE_API}/savePage.php`, {
         method: 'POST',
+        headers: {
+            'Authorization' : Cookies.get('Authorization')
+        },
         body: JSON.stringify(page)
     }).then(res => res.json());
 }
@@ -24,6 +27,9 @@ function createPage(title) {
     var headers = new Headers();
     return fetch(`${BASE_API}/addParentPage.php`, {
         method: 'POST',
+        headers: {
+            'Authorization' : Cookies.get('Authorization')
+        },
         body: JSON.stringify({title: title})
     }).then(res => res.json());
 }
@@ -31,6 +37,9 @@ function createPage(title) {
 function createChildPage(childTitle, parentId){
     return fetch(`${BASE_API}/addChildPage.php`, {
         method: 'POST',
+        headers: {
+            'Authorization' : Cookies.get('Authorization')
+        },
         body: JSON.stringify({parent_page_id: parentId, title: childTitle})
     }).then(res => res.json());
 }
@@ -40,7 +49,11 @@ async function updatePage(page) {
 }
 
 function deletePage(pageId) {
-    return fetch(`${BASE_API}/deletePage.php?id=${pageId}`)
+    return fetch(`${BASE_API}/deletePage.php?id=${pageId}`, {
+        headers: {
+            'Authorization' : Cookies.get('Authorization')
+        }
+    })
         .then(res => res.status);
 }
 

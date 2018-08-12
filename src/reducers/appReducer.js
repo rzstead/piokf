@@ -56,7 +56,7 @@ const initialState = {
     availableStyles: supportedStyles,
     availableAttributes: supportedAttributes,
     routeName: "viewer",
-    isAuthenticated: true,
+    isAuthenticated: false,
 }
 
 export default function(state = initialState, action) {

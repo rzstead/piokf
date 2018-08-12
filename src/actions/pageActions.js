@@ -22,6 +22,7 @@ import {
 
 import { PageService } from '../services/PageService';
 import { AuthService } from '../services/AuthService';
+import Cookie from 'js-cookie';
 
 export const fetchPage = (id) => dispatch => {
     console.log('pageActions => fetchPage');
@@ -116,7 +117,8 @@ export const login = (user, pass) => dispatch => {
 
     AuthService.authenticate(user, pass)
         .then(json => {
-            if(json.message.includes('success')){
+            if(json.token){
+                Cookie.set('Authorization', json.token)
                 dispatch({
                     type: AUTH_SUCCESS
                 })
