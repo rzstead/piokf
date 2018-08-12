@@ -9,6 +9,7 @@ import InspectorComponent from '../components/InspectorComponent';
 import CreateRibbonComponent from '../components/CreateRibbonComponent';
 import ElementInsertComponent from '../components/ElementInsertComponent';
 import NavComponent from '../components/NavComponent';
+import Cookies from 'js-cookie';
 
 
 class MotherComponent extends Component {
@@ -20,7 +21,7 @@ class MotherComponent extends Component {
 
     componentDidMount() {
         console.log("IS AUTHENTICATED: " + this.props.isAuthenticated);
-        if(this.props.isAuthenticated){
+        if(this.props.isAuthenticated || Cookies.get('Authorization')){
             this.props.fetchPageMetas();
         }else{
             this.props.changeRoute('login');
