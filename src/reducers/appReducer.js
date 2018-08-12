@@ -55,8 +55,8 @@ const initialState = {
     },
     availableStyles: supportedStyles,
     availableAttributes: supportedAttributes,
-    routeName: "Viewer",
-    isAuthenticated: false,
+    routeName: "viewer",
+    isAuthenticated: true,
 }
 
 export default function(state = initialState, action) {
@@ -289,15 +289,32 @@ export default function(state = initialState, action) {
         case DELETE_PAGE_SUCCESS:
             console.log("DELETE_PAGE_SUCCESS");
             var pageMetas = [...state.pageMetas];
-            var removeIndex = pageMetas.findIndex(meta => {
-                return(meta.id === action.payload.id);
-            })
-            pageMetas.splice(removeIndex, 1);
-                return{
-                    ...state,
-                    pageMetas: pageMetas,
-                    isLoading: false
-                }
+            if(action.payload.parentId){
+                console.log("Parent id : " + action.payload.parentId);
+                var parentPage = pageMetas.findIndex(meta => {
+                    return(meta.id === action.payload.parentId);
+                })
+                var childIndex = pageMetas[parentPage].children.findIndex(meta => {
+                    return(meta.id === action.payload.id);
+                })
+                pageMetas[parentPage].children.splice(childIndex, 1);
+                    return{
+                        ...state,
+                        pageMetas: pageMetas,
+                        isLoading: false
+                    } 
+            }else{
+                var removeIndex = pageMetas.findIndex(meta => {
+                    return(meta.id === action.payload.id);
+                })
+                pageMetas.splice(removeIndex, 1);
+                    return{
+                        ...state,
+                        pageMetas: pageMetas,
+                        isLoading: false
+                    }
+            }
+
         case DELETE_PAGE_FAILURE:
         console.log("DELETE_PAGE_FAILURE: " + action.error);
             return{

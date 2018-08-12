@@ -8,9 +8,9 @@ class PageListItem extends Component {
         if(this.props.pageMeta.children){
             children = this.props.pageMeta.children.map(pageMeta => {
                 return <div className="page-tab page-child" style={{color: '#333'}}>
-                            <span className='page-tab-wrapper'>
-                                <p onClick={() => this.props.onClick(pageMeta)}>{pageMeta.title}</p>
-                                <i onClick={() => this.props.onDeletePageClicked(pageMeta.id)} className='material-icons page-delete'>delete</i>
+                            <span className='page-tab-wrapper' style={{display:'flex', flex: '12'}}>
+                                <p style={{display:'flex', flex: '11'}} onClick={() => this.props.onClick(pageMeta)}>{pageMeta.title}</p>
+                                <i style={{display:'flex', flex: '1'}} onClick={() => this.props.onDeletePageClicked(pageMeta.id, this.props.pageMeta.id)} className='material-icons page-delete'>delete</i>
                             </span>
                         </div>
             });
@@ -23,9 +23,9 @@ class PageListItem extends Component {
         return(
             <div>
                 <div className='page-tab'>
-                    <span className='page-tab-wrapper'>
-                        <h4 onClick={() => this.props.onClick(this.props.pageMeta)}>{this.props.pageMeta.title}</h4>
-                        <i onClick={() => this.props.onDeletePageClicked(this.props.pageMeta.id)} className='material-icons page-delete'>delete</i>
+                    <span className='page-tab-wrapper' style={{display:'flex', flex: '12'}}>
+                        <h4 style={{display:'flex', flex: '11'}} onClick={() => this.props.onClick(this.props.pageMeta)}>{this.props.pageMeta.title}</h4>
+                        <i style={{display:'flex', flex: '1'}} onClick={() => this.props.onDeletePageClicked(this.props.pageMeta.id)} className='material-icons page-delete'>delete</i>
                     </span>
                 </div>
                 {children}
@@ -65,8 +65,9 @@ class BrowseComponent extends Component {
         }
     }
 
-    onDeletePageClicked(pageId){
-        this.props.deletePage(pageId);
+    onDeletePageClicked(pageId, parentId){
+        console.log("onDeletePageClicked => parentId: " + parentId);
+        this.props.deletePage(pageId, parentId);
     }
 
     render() {
@@ -99,8 +100,8 @@ const mapDispatchToProps = dispatch => {
         createChildPage: (childTitle, parentId) => {
             dispatch(createChildPage(childTitle, parentId))
         },
-        deletePage: (id) => {
-            dispatch(deletePage(id))
+        deletePage: (id, parentId) => {
+            dispatch(deletePage(id, parentId))
         }
     }
 }

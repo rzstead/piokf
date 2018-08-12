@@ -67,15 +67,16 @@ export const createPage = (title) => dispatch => {
         }));
 }
 
-export const deletePage = (id) => dispatch => {
+export const deletePage = (id, parentId) => dispatch => {
     console.log("pageActions => deletePage id: " + id);
+    console.log("pageActions => deletePage => parentId: " + parentId);
     dispatch({ type: DELETE_PAGE_REQUEST });
     PageService.deletePage(id)
         .then(status => {
             if (status == 200) {
                 dispatch({
                     type: DELETE_PAGE_SUCCESS,
-                    payload: { id: id }
+                    payload: { id: id, parentId: parentId }
                 })
             }
         }

@@ -82,6 +82,7 @@
 .page-tab h4{
   margin: 5px;
   display: inline-block;
+  cursor: pointer;
 }
 
 .page-tab:hover{
@@ -104,6 +105,7 @@
   padding: 5px;
   display: inline-block;
   margin: 0;
+  cursor: pointer;
 }
 
 .element-insert{
@@ -296,6 +298,10 @@ nav a:hover{
   position: relative;
   font-size: 20px;
   cursor: pointer;
+}
+
+.page-delete:hover{
+  color: red;
 }
 
 .page-tab-wrapper{
