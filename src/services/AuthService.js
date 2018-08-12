@@ -4,7 +4,6 @@ const BASE_API = 'http://neumontcsc270.dynu.net:2018/piokf-back';
 function authenticate(username, password){
     return fetch(`${BASE_API}/login.php`, {
         method: 'GET',
-        credentials: 'include',
         headers: {
             Authorization : 'Basic ' + Base64.encode(username + ':' + password)
         }
