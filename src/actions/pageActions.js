@@ -17,11 +17,13 @@ import {
     ROUTE_CHANGED,
     CREATE_CHILD_PAGE_REQUEST,
     CREATE_CHILD_PAGE_SUCCESS,
-    CREATE_CHILD_PAGE_FAILURE
+    CREATE_CHILD_PAGE_FAILURE,
+    PAGE_META_REQUEST
 } from './types';
 
 import { PageService } from '../services/PageService';
 import { AuthService } from '../services/AuthService';
+import { fetchPageMetas } from '../actions/metaActions';
 import Cookie from 'js-cookie';
 
 export const fetchPage = (id) => dispatch => {
@@ -52,6 +54,7 @@ export const savePage = (page) => dispatch => {
             type: SAVE_PAGE_FAILURE,
             error: err
         }));
+    fetchPageMetas();
 }
 
 export const createPage = (title) => dispatch => {
